@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Makefile Basic - Even - A super concise theme for Hugo</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="mkfoyw" /><meta name="description" content="http://www.ruanyifeng.com/blog/2015/02/make.html https://gist.github.com/isaacs/62a2d1825d04437c6f08 0x1d0a62f5e4a2afd2be8fefbc8da0a38224f0ba708c0da9a5a0a9b3275a697f8d 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0 with theme even" />
+
+
+<link rel="canonical" href="http://localhost:1313/post/linux/makefile-basic/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.af7fd1da18d66c2b017df5b4cae508ef44cfcac3fb4c7c7a327fe4f4f9e28b08.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Makefile Basic" />
+<meta property="og:description" content="http://www.ruanyifeng.com/blog/2015/02/make.html https://gist.github.com/isaacs/62a2d1825d04437c6f08 0x1d0a62f5e4a2afd2be8fefbc8da0a38224f0ba708c0da9a5a0a9b3275a697f8d 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/post/linux/makefile-basic/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-07-13T15:30:26&#43;08:00" />
+<meta property="article:modified_time" content="2021-07-13T15:30:26&#43;08:00" />
+
+<meta itemprop="name" content="Makefile Basic">
+<meta itemprop="description" content="http://www.ruanyifeng.com/blog/2015/02/make.html https://gist.github.com/isaacs/62a2d1825d04437c6f08 0x1d0a62f5e4a2afd2be8fefbc8da0a38224f0ba708c0da9a5a0a9b3275a697f8d 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67"><meta itemprop="datePublished" content="2021-07-13T15:30:26&#43;08:00" />
+<meta itemprop="dateModified" content="2021-07-13T15:30:26&#43;08:00" />
+<meta itemprop="wordCount" content="3062">
+<meta itemprop="keywords" content="linux," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Makefile Basic"/>
+<meta name="twitter:description" content="http://www.ruanyifeng.com/blog/2015/02/make.html https://gist.github.com/isaacs/62a2d1825d04437c6f08 0x1d0a62f5e4a2afd2be8fefbc8da0a38224f0ba708c0da9a5a0a9b3275a697f8d 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Even</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Even</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Makefile Basic</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-07-13 </span>
+        <div class="post-category">
+            <a href="/categories/linux/"> linux </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p><a href="http://www.ruanyifeng.com/blog/2015/02/make.html">http://www.ruanyifeng.com/blog/2015/02/make.html</a>
+<a href="https://gist.github.com/isaacs/62a2d1825d04437c6f08">https://gist.github.com/isaacs/62a2d1825d04437c6f08</a></p>
+</blockquote>
+<p>0x1d0a62f5e4a2afd2be8fefbc8da0a38224f0ba708c0da9a5a0a9b3275a697f8d</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span><span class="lnt">208
+</span><span class="lnt">209
+</span><span class="lnt">210
+</span><span class="lnt">211
+</span><span class="lnt">212
+</span><span class="lnt">213
+</span><span class="lnt">214
+</span><span class="lnt">215
+</span><span class="lnt">216
+</span><span class="lnt">217
+</span><span class="lnt">218
+</span><span class="lnt">219
+</span><span class="lnt">220
+</span><span class="lnt">221
+</span><span class="lnt">222
+</span><span class="lnt">223
+</span><span class="lnt">224
+</span><span class="lnt">225
+</span><span class="lnt">226
+</span><span class="lnt">227
+</span><span class="lnt">228
+</span><span class="lnt">229
+</span><span class="lnt">230
+</span><span class="lnt">231
+</span><span class="lnt">232
+</span><span class="lnt">233
+</span><span class="lnt">234
+</span><span class="lnt">235
+</span><span class="lnt">236
+</span><span class="lnt">237
+</span><span class="lnt">238
+</span><span class="lnt">239
+</span><span class="lnt">240
+</span><span class="lnt">241
+</span><span class="lnt">242
+</span><span class="lnt">243
+</span><span class="lnt">244
+</span><span class="lnt">245
+</span><span class="lnt">246
+</span><span class="lnt">247
+</span><span class="lnt">248
+</span><span class="lnt">249
+</span><span class="lnt">250
+</span><span class="lnt">251
+</span><span class="lnt">252
+</span><span class="lnt">253
+</span><span class="lnt">254
+</span><span class="lnt">255
+</span><span class="lnt">256
+</span><span class="lnt">257
+</span><span class="lnt">258
+</span><span class="lnt">259
+</span><span class="lnt">260
+</span><span class="lnt">261
+</span><span class="lnt">262
+</span><span class="lnt">263
+</span><span class="lnt">264
+</span><span class="lnt">265
+</span><span class="lnt">266
+</span><span class="lnt">267
+</span><span class="lnt">268
+</span><span class="lnt">269
+</span><span class="lnt">270
+</span><span class="lnt">271
+</span><span class="lnt">272
+</span><span class="lnt">273
+</span><span class="lnt">274
+</span><span class="lnt">275
+</span><span class="lnt">276
+</span><span class="lnt">277
+</span><span class="lnt">278
+</span><span class="lnt">279
+</span><span class="lnt">280
+</span><span class="lnt">281
+</span><span class="lnt">282
+</span><span class="lnt">283
+</span><span class="lnt">284
+</span><span class="lnt">285
+</span><span class="lnt">286
+</span><span class="lnt">287
+</span><span class="lnt">288
+</span><span class="lnt">289
+</span><span class="lnt">290
+</span><span class="lnt">291
+</span><span class="lnt">292
+</span><span class="lnt">293
+</span><span class="lnt">294
+</span><span class="lnt">295
+</span><span class="lnt">296
+</span><span class="lnt">297
+</span><span class="lnt">298
+</span><span class="lnt">299
+</span><span class="lnt">300
+</span><span class="lnt">301
+</span><span class="lnt">302
+</span><span class="lnt">303
+</span><span class="lnt">304
+</span><span class="lnt">305
+</span><span class="lnt">306
+</span><span class="lnt">307
+</span><span class="lnt">308
+</span><span class="lnt">309
+</span><span class="lnt">310
+</span><span class="lnt">311
+</span><span class="lnt">312
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-makefile" data-lang="makefile"><span class="c"># Hello, and welcome to makefile basics.
+</span><span class="c">#
+</span><span class="c"># You will learn why `make` is so great, and why, despite its &#34;weird&#34; syntax,
+</span><span class="c"># it is actually a highly expressive, efficient, and powerful way to build
+</span><span class="c"># programs.
+</span><span class="c">#
+</span><span class="c"># Once you&#39;re done here, go to
+</span><span class="c"># http://www.gnu.org/software/make/manual/make.html
+</span><span class="c"># to learn SOOOO much more.
+</span><span class="c"></span>
+<span class="c"># To do stuff with make, you type `make` in a directory that has a file called
+</span><span class="c"># &#34;Makefile&#34;.  You can also type `make -f &lt;makefile&gt;` to use a different
+</span><span class="c"># filename.
+</span><span class="c">#
+</span><span class="c"># 为了使用 make 完成一些任务， 你需要在有一个叫做 `Makefile` 文件的目录里面键入 `make` . 
+</span><span class="c"># 你可以使用 `make -f &lt;makefile&gt;` 去使用不同的文件名 
+</span><span class="c"># 
+</span><span class="c"># A Makefile is a collection of rules.  Each rule is a recipe to do a specific
+</span><span class="c"># thing, sort of like a grunt task or an npm package.json script.
+</span><span class="c"># 
+</span><span class="c"># Makefile 是系列规则的集合。 每个规则都是做特定事情的秘诀。
+</span><span class="c">#
+</span><span class="c">#
+</span><span class="c"># A rule looks like this:
+</span><span class="c">#
+</span><span class="c"># &lt;target&gt;: &lt;prerequisites...&gt;
+</span><span class="c"># 	&lt;commands&gt;
+</span><span class="c">#
+</span><span class="c"># The &#34;target&#34; is required.  The prerequisites are optional, and the commands
+</span><span class="c"># are also optional, but you have to have one or the other.
+</span><span class="c">#
+</span><span class="c"># Type &#34;make&#34; and see what happens:
+</span><span class="c"></span>
+<span class="nf">tutorial</span><span class="o">:</span>
+	@# todo: have this actually run some kind of tutorial wizard?
+	@echo <span class="s2">&#34;Please read the &#39;Makefile&#39; file to go through this tutorial&#34;</span>
+
+<span class="c"># By default, the first target is run if you don&#39;t specify one.  So, in this
+</span><span class="c"># dir, typing &#34;make&#34; is the same as typing &#34;make tutorial&#34;
+</span><span class="c">#
+</span><span class="c"># 默认情况下， 如果你没有指定一个 target， 那么个第一个 target 将会被运行。  
+</span><span class="c"># 
+</span><span class="c"># By default, make prints out the command before it runs it, so you can see
+</span><span class="c"># what it&#39;s doing.  This is a departure from the &#34;success should be silent&#34;
+</span><span class="c"># UNIX dogma, but without that default, it&#39;d be very difficult to see what
+</span><span class="c"># build logs etc are actually doing.
+</span><span class="c">#
+</span><span class="c"># To suppress the output, we&#39;ve added @ signs before each line, above.
+</span><span class="c">#
+</span><span class="c"># 为了去压缩输出内容， 我们能够添加 @ 符号到上面的每一行。
+</span><span class="c"># 
+</span><span class="c"># Each line of the command list is run as a separate invocation of the shell.
+</span><span class="c"># So, if you set a variable, it won&#39;t be available in the next line! To see
+</span><span class="c"># this in action, try running `make var-lost`
+</span><span class="c"># 
+</span><span class="c"># 命令列表的每一行都作为单独的 shell 调用运行。 
+</span><span class="c"># 因此， 如果你设置了一个变量， 那么这个变量在下一行的命中中将是不可见的。 
+</span><span class="c"></span>
+<span class="nf">var-lost</span><span class="o">:</span>
+	<span class="nb">export</span> <span class="nv">foo</span><span class="o">=</span>bar
+	<span class="nb">echo</span> <span class="s2">&#34;foo=[</span><span class="nv">$$</span><span class="s2">foo]&#34;</span>
+
+<span class="c"># Notice that we have to use a double-$ in the command line.  That is because
+</span><span class="c"># each line of a makefile is parsed first using the makefile syntax, and THEN
+</span><span class="c"># the result is passed to the shell.
+</span><span class="c"># Let&#39;s try running both of the commands in the *same* shell invocation, by
+</span><span class="c"># escaping the \n character.  Run `make var-kept` and note the difference.
+</span><span class="c"># 
+</span><span class="c"># 注意， 在命令行中我们使用两个 $, 这是因为在 makefile 中的每一行首先会使用 makefile 语法去解析， 
+</span><span class="c"># 然后把结果传递给shell 
+</span><span class="c"># 通过转义 \n 字符， 可以让多行命令在同一个 shell 调用中被运行。 
+</span><span class="c"></span>
+
+<span class="nf">var-kept</span><span class="o">:</span>
+	<span class="nb">export</span> <span class="nv">foo</span><span class="o">=</span>bar<span class="p">;</span> <span class="se">\
+</span><span class="se"></span>	<span class="nb">echo</span> <span class="s2">&#34;foo=[</span><span class="nv">$$</span><span class="s2">foo]&#34;</span>
+
+<span class="c"># Now let&#39;s try making something that depends on something else.  In this case,
+</span><span class="c"># we&#39;re going to create a file called &#34;result.txt&#34; which depends on
+</span><span class="c"># &#34;source.txt&#34;.
+</span><span class="c"></span>
+<span class="nf">result.txt</span><span class="o">:</span> <span class="n">source</span>.<span class="n">txt</span>
+	@echo <span class="s2">&#34;building result.txt from source.txt&#34;</span>
+	cp source.txt result.txt
+
+<span class="c"># When we type `make result.txt`, we get an error!
+</span><span class="c"># $ make result.txt
+</span><span class="c"># make: *** No rule to make target `source.txt&#39;, needed by `result.txt&#39;.  Stop.
+</span><span class="c">#
+</span><span class="c"># The problem here is that we&#39;ve told make to create result.txt from
+</span><span class="c"># source.txt, but we haven&#39;t told it how to get source.txt, and the file is
+</span><span class="c"># not in our tree right now.
+</span><span class="c">#
+</span><span class="c"># Un-comment the next ruleset to fix the problem.
+</span><span class="c">#
+</span><span class="c"></span><span class="nf">source.txt</span><span class="o">:</span>
+	@echo <span class="s2">&#34;building source.txt&#34;</span>
+	@echo <span class="s2">&#34;this is the source&#34;</span> &gt; source.txt
+<span class="c">#
+</span><span class="c"># Run `make result.txt` and you&#39;ll see it first creates source.txt, and then
+</span><span class="c"># copies it to result.txt.  Try running `make result.txt` again, and you&#39;ll see
+</span><span class="c"># that nothing happens!  That&#39;s because the dependency, source.txt, hasn&#39;t
+</span><span class="c"># changed, so there&#39;s no need to re-build result.txt.
+</span><span class="c">#
+</span><span class="c"># Run `touch source.txt`, or edit the file, and you&#39;ll see that
+</span><span class="c"># `make result.txt` re-builds the file.
+</span><span class="c">#
+</span><span class="c">#
+</span><span class="c"># Let&#39;s say that we were working on a project with 100 .c files, and each of
+</span><span class="c"># those .c files we wanted to turn into a corresponding .o file, and then link
+</span><span class="c"># all the .o files into a binary.  (This is effectively the same if you have
+</span><span class="c"># 100 .styl files to turn into .css files, and then link together into a big
+</span><span class="c"># single concatenated main.min.css file.)
+</span><span class="c">#
+</span><span class="c"># It would be SUPER TEDIOUS to create a rule for each one of those.  Luckily,
+</span><span class="c"># make makes this easy for us.  We can create one generic rule that handles
+</span><span class="c"># any files matching a specific pattern, and declare that we&#39;re going to
+</span><span class="c"># transform it into the corresponding file of a different pattern.
+</span><span class="c"># 
+</span><span class="c"># 我们能够创建一个通用的规则， 它能够处理任何匹配特定模式的任何文件。 
+</span><span class="c">#
+</span><span class="c"># Within the ruleset, we can use some special syntax to refer to the input
+</span><span class="c"># file and the output file.  Here are the special variables:
+</span><span class="c">#
+</span><span class="c"># 在规则的集合中， 我们能够使用的一些特别的语法去引用输入文件和输出文件。 下面是一些特别的变量。 
+</span><span class="c">#
+</span><span class="c">#
+</span><span class="c"># $@  The file that is being made right now by this rule (aka the &#34;target&#34;)
+</span><span class="c">#     You can remember this because it&#39;s like the &#34;$@&#34; list in a
+</span><span class="c">#     shell script.  @ is like a letter &#34;a&#34; for &#34;arguments.
+</span><span class="c">#     When you type &#34;make foo&#34;, then &#34;foo&#34; is the argument.
+</span><span class="c"># 
+</span><span class="c"># $&lt;  The input file (that is, the first prerequisite in the list)
+</span><span class="c">#     You can remember this becasue the &lt; is like a file input
+</span><span class="c">#     pipe in bash.  `head &lt;foo.txt` is using the contents of
+</span><span class="c">#     foo.txt as the input.  Also the &lt; points INto the $
+</span><span class="c">#
+</span><span class="c"># $^  This is the list of ALL input files, not just the first one.
+</span><span class="c">#     You can remember it because it&#39;s like $&lt;, but turned up a notch.
+</span><span class="c">#     If a file shows up more than once in the input list for some reason,
+</span><span class="c">#     it&#39;s still only going to show one time in $^.
+</span><span class="c">#
+</span><span class="c"># $?  All the input files that are newer than the target
+</span><span class="c">#     It&#39;s like a question. &#34;Wait, why are you doing this?  What
+</span><span class="c">#     files changed to make this necessary?&#34;
+</span><span class="c">#
+</span><span class="c"># $$  A literal $ character inside of the rules section
+</span><span class="c">#     More dollar signs equals more cash money equals dollar sign.
+</span><span class="c">#
+</span><span class="c"># $*  The &#34;stem&#34; part that matched in the rule definition&#39;s % bit
+</span><span class="c">#     You can remember this because in make rules, % is like * on
+</span><span class="c">#     the shell, so $* is telling you what matched the pattern.
+</span><span class="c">#
+</span><span class="c"># You can also use the special syntax $(@D) and $(@F) to refer to
+</span><span class="c"># just the dir and file portions of $@, respectively.  $(&lt;D) and
+</span><span class="c"># $(&lt;F) work the same way on the $&lt; variable.  You can do the D/F
+</span><span class="c"># trick on any variable that looks like a filename.
+</span><span class="c">#
+</span><span class="c"># There are a few other special variables, and we can define our own
+</span><span class="c"># as well.  Most of the other special variables, you&#39;ll never use, so
+</span><span class="c"># don&#39;t worry about them.
+</span><span class="c">#
+</span><span class="c"># So, our rule for result.txt could&#39;ve been written like this
+</span><span class="c"># instead:
+</span><span class="c"></span>
+<span class="nf">result-using-var.txt</span><span class="o">:</span> <span class="n">source</span>.<span class="n">txt</span>
+	@echo <span class="s2">&#34;buildling result-using-var.txt using the </span><span class="nv">$$</span><span class="s2">&lt; and </span><span class="nv">$$</span><span class="s2">@ vars&#34;</span>
+	cp $&lt; <span class="nv">$@</span>
+
+<span class="c"># Let&#39;s say that we had 100 source files, that we want to convert
+</span><span class="c"># into 100 result files.  Rather than list them out one by one in the
+</span><span class="c"># makefile, we can use a bit of shell scripting to generate them, and
+</span><span class="c"># save them in a variable.
+</span><span class="c"># 假如我们有100个源文件， 我们想要转换源文件为结果文件。 我们不要把他们一一列举在
+</span><span class="c"># makefile 文件中， 我们可以使用一点shell脚本生成他们并保存在变量中。 
+</span><span class="c">#
+</span><span class="c"># Note that make uses := for assignment instead of =
+</span><span class="c"># I don&#39;t know why that is.  The sooner you accept that this isn&#39;t
+</span><span class="c"># bash/sh, the better.
+</span><span class="c">#
+</span><span class="c"># 注意 make 使用 := 代替 = 我不知道为什么会这样。 你越早接受这不是 bash/sh，更好。
+</span><span class="c">#  
+</span><span class="c"># Also, usually you&#39;d use `$(wildcard src/*.txt)` instead, since
+</span><span class="c"># probably the files would already exist in your project.  Since this
+</span><span class="c"># is a tutorial, though we&#39;re going to generate them using make.
+</span><span class="c">#
+</span><span class="c"># This will execute the shell program to generate a list of files.
+</span><span class="c"></span><span class="nv">srcfiles</span> <span class="o">:=</span> <span class="k">$(</span>shell <span class="nb">echo</span> src/<span class="o">{</span>00..99<span class="o">}</span>.txt<span class="k">)</span>
+
+<span class="c"># How do we make a text file in the src dir?
+</span><span class="c"># We define the filename using a &#34;stem&#34; with the % as a placeholder.
+</span><span class="c"># What this means is &#34;any file named src/*.txt&#34;, and it puts whatever
+</span><span class="c"># matches the &#34;%&#34; bit into the $* variable.
+</span><span class="c">#
+</span><span class="c"># 我们如何在 src 目录中创建一个文件？
+</span><span class="c"># 我们使用 “stem” 和 当作占位符“%” 定义了一个文件名。 这就意味着“任何名为 src/*.txt” 的文件
+</span><span class="c"># 并且 它会把 &#34;%&#34; 匹配的内容放入 $* 变量中。 
+</span><span class="c"></span>
+<span class="nf">src/%.txt</span><span class="o">:</span>
+	@# First things first, create the dir <span class="k">if</span> it doesn<span class="err">&#39;</span>t exist.
+	@# Prepend with @ because srsly who cares about dir creation
+	@<span class="o">[</span> -d src <span class="o">]</span> <span class="o">||</span> mkdir src
+	@# <span class="k">then</span>, we just <span class="nb">echo</span> some data into the file
+	@# The <span class="nv">$*</span> expands to the <span class="s2">&#34;stem&#34;</span> bit matched by %
+	@# So, we get a bunch of files with numeric names, containing their number
+	<span class="nb">echo</span> <span class="nv">$*</span> &gt; <span class="nv">$@</span>
+
+<span class="c"># Try running `make src/00.txt` and `make src/01.txt` now.
+</span><span class="c"></span>
+
+<span class="c"># To not have to run make for each file, we define a &#34;phony&#34; target that
+</span><span class="c"># depends on all of the srcfiles, and has no other rules.  It&#39;s good
+</span><span class="c"># practice to define your phony rules in a .PHONY declaration in the file.
+</span><span class="c"># (See the .PHONY entry at the very bottom of this file.)
+</span><span class="c">#
+</span><span class="c"># 为了不必为每个文件运行 make， 我定义一个依赖于所有的 srcfile 的虚假目标， 并且没有任何规则。 
+</span><span class="c"># 更好的做法使用 `.PHONY`  声明定义你自己的虚假的规则。 
+</span><span class="c">#
+</span><span class="c">#
+</span><span class="c"># Running `make source` will make ALL of the files in the src/ dir.  Before
+</span><span class="c"># it can make any of them, it&#39;ll first make the src/ dir itself.  Then
+</span><span class="c"># it&#39;ll copy the &#34;stem&#34; value (that is, the number in the filename matched
+</span><span class="c"># by the %) into the file, like the rule says above.
+</span><span class="c">#
+</span><span class="c"># Try typing &#34;make source&#34; to make all this happen.
+</span><span class="c"></span><span class="nf">source</span><span class="o">:</span> <span class="k">$(</span><span class="nv">srcfiles</span><span class="k">)</span>
+
+
+<span class="c"># So, to make a dest file, let&#39;s copy a source file into its destination.
+</span><span class="c"># Also, it has to create the destination folder first.
+</span><span class="c">#
+</span><span class="c"># The destination of any dest/*.txt file is the src/*.txt file with
+</span><span class="c"># the matching stem.  You could just as easily say that %.css depends
+</span><span class="c"># on %.styl
+</span><span class="c"></span><span class="nf">dest/%.txt</span><span class="o">:</span> <span class="n">src</span>/%.<span class="n">txt</span>
+	<span class="o">[</span> -d dest <span class="o">]</span> <span class="o">||</span> mkdir dest
+	cp $&lt; <span class="nv">$@</span>
+
+<span class="c"># So, this is great and all, but we don&#39;t want to type `make dest/#.txt`
+</span><span class="c"># 100 times!
+</span><span class="c">#
+</span><span class="c"># Let&#39;s create a &#34;phony&#34; target that depends on all the destination files.
+</span><span class="c"># We can use the built-in pattern substitution &#34;patsubst&#34; so we don&#39;t have
+</span><span class="c"># to re-build the list.  This patsubst function uses the same &#34;stem&#34;
+</span><span class="c"># concept explained above.
+</span><span class="c">#  
+</span><span class="c"># 让我创建一个依赖所有的 destfiles 的虚假目标。 
+</span><span class="c"># 
+</span><span class="c"></span><span class="nv">destfiles</span> <span class="o">:=</span> <span class="k">$(</span>patsubst src/%.txt,dest/%.txt,<span class="k">$(</span>srcfiles<span class="k">))</span>
+<span class="nf">destination</span><span class="o">:</span> <span class="k">$(</span><span class="nv">destfiles</span><span class="k">)</span>
+
+<span class="c"># Since &#34;destination&#34; isn&#39;t an actual filename, we define that as a .PHONY
+</span><span class="c"># as well (see below).  This way, Make won&#39;t bother itself checking to see
+</span><span class="c"># if the file named &#34;destination&#34; exists if we have something that depends
+</span><span class="c"># on it later.
+</span><span class="c">#
+</span><span class="c"># 因为 “destination” 不是一个真正的文件， 我们可以把他定义为 `.PHONY` 
+</span><span class="c"># 
+</span><span class="c"># Let&#39;s say that all of these dest files should be gathered up into a
+</span><span class="c"># proper compiled program.  Since this is a tutorial, we&#39;ll use the
+</span><span class="c"># venerable feline compiler called &#34;cat&#34;, which is included in every
+</span><span class="c"># posix system because cats are wonderful and a core part of UNIX.
+</span><span class="c"></span>
+<span class="nf">kitty</span><span class="o">:</span> <span class="k">$(</span><span class="nv">destfiles</span><span class="k">)</span>
+	@# Remember, $&lt; is the input file, but $^ is ALL the input files.
+	@# Cat them into the kitty.
+	cat $^ &gt; kitty
+
+<span class="c"># Note what&#39;s happening here:
+</span><span class="c">#
+</span><span class="c"># kitty -&gt; (all of the dest files)
+</span><span class="c"># Then, each destfile depends on a corresponding srcfile
+</span><span class="c">#
+</span><span class="c"># If you `make kitty` again, it&#39;ll say &#34;kitty is up to date&#34;
+</span><span class="c">#
+</span><span class="c"># NOW TIME FOR MAGIC!
+</span><span class="c">#
+</span><span class="c"># Let&#39;s update just ONE of the source files, and see what happens
+</span><span class="c">#
+</span><span class="c"># Run this:  touch src/25.txt; make kitty
+</span><span class="c">#
+</span><span class="c"># Note that it is smart enough to re-build JUST the single destfile that
+</span><span class="c"># corresponds to the 25.txt file, and then concats them all to kitty.  It
+</span><span class="c"># *doesn&#39;t* re-generate EVERY source file, and then EVERY dest file,
+</span><span class="c"># every time
+</span><span class="c"></span>
+
+<span class="c"># It&#39;s good practice to have a `test` target, because people will come to
+</span><span class="c"># your project, and if there&#39;s a Makefile, then they&#39;ll expect `make test`
+</span><span class="c"># to do something.
+</span><span class="c">#
+</span><span class="c"># We can&#39;t test the kitty unless it exists, so we have to depend on that.
+</span><span class="c"></span><span class="nf">test</span><span class="o">:</span> <span class="n">kitty</span>
+	@echo <span class="s2">&#34;miao&#34;</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">&#34;tests all pass!&#34;</span>
+
+<span class="c"># Last but not least, `make clean` should always remove all of the stuff
+</span><span class="c"># that your makefile created, so that we can remove bad stuff if anything
+</span><span class="c"># gets corrupted or otherwise screwed up.
+</span><span class="c"></span><span class="nf">clean</span><span class="o">:</span>
+	rm -rf *.txt src dest kitty
+
+<span class="c"># What happens if there&#39;s an error!?  Let&#39;s say you&#39;re building stuff, and
+</span><span class="c"># one of the commands fails.  Make will abort and refuse to proceed if any
+</span><span class="c"># of the commands exits with a non-zero error code.
+</span><span class="c"># To demonstrate this, we&#39;ll use the `false` program, which just exits with
+</span><span class="c"># a code of 1 and does nothing else.
+</span><span class="c"></span><span class="nf">badkitty</span><span class="o">:</span>
+	<span class="k">$(</span>MAKE<span class="k">)</span> kitty <span class="c1"># The special var $(MAKE) means &#34;the make currently in use&#34;</span>
+	<span class="nb">false</span> <span class="c1"># &lt;-- this will fail</span>
+	<span class="nb">echo</span> <span class="s2">&#34;should not get here&#34;</span>
+
+<span class="nf">.PHONY</span><span class="o">:</span> <span class="n">source</span> <span class="n">destination</span> <span class="n">clean</span> <span class="n">test</span> <span class="n">badkitty</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">mkfoyw</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2021-07-13
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/linux/">linux</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/book/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">汇编语言程序设计</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/filecoin/filecoin-%E5%AD%98%E5%82%A8%E4%BB%93%E5%BA%93/">
+            <span class="next-text nav-default">Filecoin 存储仓库</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="http://localhost:1313" class="iconfont icon-facebook" title="facebook"></a>
+      <a href="http://localhost:1313" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="http://localhost:1313" class="iconfont icon-google" title="google"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-pocket" title="pocket"></a>
+      <a href="http://localhost:1313" class="iconfont icon-tumblr" title="tumblr"></a>
+      <a href="http://localhost:1313" class="iconfont icon-instagram" title="instagram"></a>
+      <a href="http://localhost:1313" class="iconfont icon-gitlab" title="gitlab"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://localhost:1313/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>mkfoyw</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

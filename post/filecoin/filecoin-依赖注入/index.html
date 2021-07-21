@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Filecoin 依赖注入 - Even - A super concise theme for Hugo</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="mkfoyw" /><meta name="description" content="Filecoin 由一个个模块构成， 并采用 fx 实现各个模块间的依赖注入。 一般情况情况下，我们通过一个 New 函数构造一个对象，并通过函数参数方式手动传递各种依赖对象" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0 with theme even" />
+
+
+<link rel="canonical" href="http://localhost:1313/post/filecoin/filecoin-%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.af7fd1da18d66c2b017df5b4cae508ef44cfcac3fb4c7c7a327fe4f4f9e28b08.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Filecoin 依赖注入" />
+<meta property="og:description" content="Filecoin 由一个个模块构成， 并采用 fx 实现各个模块间的依赖注入。 一般情况情况下，我们通过一个 New 函数构造一个对象，并通过函数参数方式手动传递各种依赖对象" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/post/filecoin/filecoin-%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-07-12T15:19:03&#43;08:00" />
+<meta property="article:modified_time" content="2021-07-12T15:19:03&#43;08:00" />
+
+<meta itemprop="name" content="Filecoin 依赖注入">
+<meta itemprop="description" content="Filecoin 由一个个模块构成， 并采用 fx 实现各个模块间的依赖注入。 一般情况情况下，我们通过一个 New 函数构造一个对象，并通过函数参数方式手动传递各种依赖对象"><meta itemprop="datePublished" content="2021-07-12T15:19:03&#43;08:00" />
+<meta itemprop="dateModified" content="2021-07-12T15:19:03&#43;08:00" />
+<meta itemprop="wordCount" content="1062">
+<meta itemprop="keywords" content="filecoin," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Filecoin 依赖注入"/>
+<meta name="twitter:description" content="Filecoin 由一个个模块构成， 并采用 fx 实现各个模块间的依赖注入。 一般情况情况下，我们通过一个 New 函数构造一个对象，并通过函数参数方式手动传递各种依赖对象"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Even</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Even</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Filecoin 依赖注入</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-07-12 </span>
+        <div class="post-category">
+            <a href="/categories/filecoin/"> filecoin </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#fx-基础">fx 基础</a></li>
+        <li><a href="#filecoin-的依赖注入">filecoin 的依赖注入</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>Filecoin 由一个个模块构成， 并采用 fx 实现各个模块间的依赖注入。</p>
+<p>一般情况情况下，我们通过一个 New 函数构造一个对象，并通过函数参数方式手动传递各种依赖对象， 在一个大型的项目对象之间依赖关系变得非常复杂，如果我们手动的创建对象， 这是非常繁琐并且容易出错的。 而 fx 依赖框架可以为我们完成上面的工作。</p>
+<h2 id="fx-基础">fx 基础</h2>
+<p>具体细节可看： <a href="https://pkg.go.dev/go.uber.org/fx#example-package">https://pkg.go.dev/go.uber.org/fx#example-package</a></p>
+<p>在 <code>fx</code> 中 <code>constructor</code> 构造器任何能够有返回值的函数可以看作是一个 <code>constructor</code>, 因为其创建（返回）了一些对象。 <code>constructor</code> 类似于某些类型的 <code>New***</code> 函数。</p>
+<blockquote>
+<p>注意 <code>constructor</code> 可以同时返回一个多个对象。如果其中 一个对象的类型是 error 类型， 且值不为 <code>nil</code> 这时我们就知道在构建对象期间发生了错误， 此时就会停止构建。</p>
+</blockquote>
+<p>我们启动一个程序过程通常如下：</p>
+<ul>
+<li>创建各种对象， 并构建我们的程序。</li>
+<li>开启一个后台的 goroutine 运行我们的程序。</li>
+<li>在程序退出进行一些善后工作， 也就是执行 <code>clean()</code> 函数。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">srv</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">NewServer</span><span class="p">()</span> 
+<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+   <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed to construct server: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">go</span> <span class="nx">srv</span><span class="p">.</span><span class="nf">Start</span><span class="p">()</span>
+<span class="k">defer</span> <span class="nx">srv</span><span class="p">.</span><span class="nf">Stop</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>fx 框架将上面的过程抽象为 <code>Lifeclye</code> 。 并让程序启动阶段和结束阶段变成了 Hook 对象的 <code>OnStart</code> 和 <code>OnStop</code> 函数了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">NewMux</span><span class="p">(</span><span class="nx">lc</span> <span class="nx">fx</span><span class="p">.</span><span class="nx">Lifecycle</span><span class="p">,</span> <span class="nx">logger</span> <span class="o">*</span><span class="nx">log</span><span class="p">.</span><span class="nx">Logger</span><span class="p">)</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">ServeMux</span> <span class="p">{</span>
+	<span class="nx">logger</span><span class="p">.</span><span class="nf">Print</span><span class="p">(</span><span class="s">&#34;Executing NewMux.&#34;</span><span class="p">)</span>
+	<span class="nx">mux</span> <span class="o">:=</span> <span class="nx">http</span><span class="p">.</span><span class="nf">NewServeMux</span><span class="p">()</span>
+
+	<span class="nx">server</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">http</span><span class="p">.</span><span class="nx">Server</span><span class="p">{</span>
+		<span class="nx">Addr</span><span class="p">:</span>    <span class="s">&#34;:8080&#34;</span><span class="p">,</span>
+		<span class="nx">Handler</span><span class="p">:</span> <span class="nx">mux</span><span class="p">,</span>
+	<span class="p">}</span>
+	<span class="nx">lc</span><span class="p">.</span><span class="nf">Append</span><span class="p">(</span><span class="nx">fx</span><span class="p">.</span><span class="nx">Hook</span><span class="p">{</span>
+		<span class="nx">OnStart</span><span class="p">:</span> <span class="kd">func</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+			<span class="nx">logger</span><span class="p">.</span><span class="nf">Print</span><span class="p">(</span><span class="s">&#34;Starting HTTP server.&#34;</span><span class="p">)</span>		
+			<span class="k">go</span> <span class="nx">server</span><span class="p">.</span><span class="nf">ListenAndServe</span><span class="p">()</span>
+			<span class="k">return</span> <span class="kc">nil</span>
+		<span class="p">},</span>
+		<span class="nx">OnStop</span><span class="p">:</span> <span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+			<span class="nx">logger</span><span class="p">.</span><span class="nf">Print</span><span class="p">(</span><span class="s">&#34;Stopping HTTP server.&#34;</span><span class="p">)</span>
+			<span class="k">return</span> <span class="nx">server</span><span class="p">.</span><span class="nf">Shutdown</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+		<span class="p">},</span>
+	<span class="p">})</span>
+
+	<span class="k">return</span> <span class="nx">mux</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在 fx 中用来当作依赖提供给别的对象，叫做 <code>Provde</code>,  你要构建的最终对象， 被称为 <code>Invoke</code>.  在创建 Fx 应用程序的时候， 你必须指定你提供的对象是 <code>Provide</code> 还是 <code>Invoke</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">app</span> <span class="o">:=</span> <span class="nx">fx</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span>
+	<span class="nx">fx</span><span class="p">.</span><span class="nf">Provide</span><span class="p">(</span>
+		<span class="nx">NewLogger</span><span class="p">,</span>
+		<span class="nx">NewHandler</span><span class="p">,</span>
+		<span class="nx">NewMux</span><span class="p">,</span>
+	<span class="p">),</span>
+    <span class="nx">fx</span><span class="p">.</span><span class="nf">Popute</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">impl</span><span class="p">.</span><span class="nx">FullNode</span><span class="p">),</span>
+	<span class="nx">fx</span><span class="p">.</span><span class="nf">Invoke</span><span class="p">(</span><span class="nx">Register</span><span class="p">),</span>
+<span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>Populate</code>会填充结构体的字段各个字段。</p>
+<h2 id="filecoin-的依赖注入">filecoin 的依赖注入</h2>
+<p>在 filecoin 中有 <code>ChainNode</code>, <code>MinerNode</code>等角色的程序，  每个程序都包含若干个子系统，每个子系统之间相互独立， 也相互联系。  每个子系统都是我们的需要构建的目标， 相当于 <code>fx.Invoke</code> 对象， 这些子系统之间有构建顺序。 在 <code>filecoin</code> 中采用 <code>setting</code> 结构来容纳所有的构建对象， 最后并按照顺序传递 <code>fx.App</code> 让它按照顺序依次构建我们的子系统， 最后组成我们的程序。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">Settings</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="c1">// 模块或者子系统的依赖对象。 
+</span><span class="c1"></span>	<span class="nx">modules</span> <span class="kd">map</span><span class="p">[</span><span class="kd">interface</span><span class="p">{}]</span><span class="nx">fx</span><span class="p">.</span><span class="nx">Option</span>
+
+    <span class="c1">//子系统或者模块， 他们的返回类型不会作为其他模块或者对象的依赖对象。 这些模块必须按照顺序进行构建。
+</span><span class="c1"></span>	<span class="nx">invokes</span> <span class="p">[]</span><span class="nx">fx</span><span class="p">.</span><span class="nx">Option</span>
+
+    <span class="c1">// 程序类型
+</span><span class="c1"></span>	<span class="nx">nodeType</span> <span class="nx">repo</span><span class="p">.</span><span class="nx">RepoType</span>
+
+	<span class="nx">Online</span> <span class="kt">bool</span> <span class="c1">// Online option applied
+</span><span class="c1"></span>	<span class="nx">Config</span> <span class="kt">bool</span> <span class="c1">// Config option applied
+</span><span class="c1"></span>	<span class="nx">Lite</span>   <span class="kt">bool</span> <span class="c1">// Start node in &#34;lite&#34; mode
+</span><span class="c1"></span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>下面是采用 fx 构建程序代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// New builds and starts new Filecoin node
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">New</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">opts</span> <span class="o">...</span><span class="nx">Option</span><span class="p">)</span> <span class="p">(</span><span class="nx">StopFunc</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">settings</span> <span class="o">:=</span> <span class="nx">Settings</span><span class="p">{</span>
+		<span class="nx">modules</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kd">interface</span><span class="p">{}]</span><span class="nx">fx</span><span class="p">.</span><span class="nx">Option</span><span class="p">{},</span>
+		<span class="nx">invokes</span><span class="p">:</span> <span class="nb">make</span><span class="p">([]</span><span class="nx">fx</span><span class="p">.</span><span class="nx">Option</span><span class="p">,</span> <span class="nx">_nInvokes</span><span class="p">),</span>
+	<span class="p">}</span>
+
+	<span class="c1">// apply module options in the right order
+</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">Options</span><span class="p">(</span><span class="nf">Options</span><span class="p">(</span><span class="nf">defaults</span><span class="p">()</span><span class="o">...</span><span class="p">),</span> <span class="nf">Options</span><span class="p">(</span><span class="nx">opts</span><span class="o">...</span><span class="p">))(</span><span class="o">&amp;</span><span class="nx">settings</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">xerrors</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;applying node options failed: %w&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="c1">// gather constructors for fx.Options
+</span><span class="c1"></span>	<span class="nx">ctors</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="nx">fx</span><span class="p">.</span><span class="nx">Option</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">settings</span><span class="p">.</span><span class="nx">modules</span><span class="p">))</span>
+	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">opt</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">settings</span><span class="p">.</span><span class="nx">modules</span> <span class="p">{</span>
+		<span class="nx">ctors</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">ctors</span><span class="p">,</span> <span class="nx">opt</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="c1">// fill holes in invokes for use in fx.Options
+</span><span class="c1"></span>	<span class="k">for</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">opt</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">settings</span><span class="p">.</span><span class="nx">invokes</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="nx">opt</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="nx">settings</span><span class="p">.</span><span class="nx">invokes</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nx">fx</span><span class="p">.</span><span class="nf">Options</span><span class="p">()</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="nx">app</span> <span class="o">:=</span> <span class="nx">fx</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span>
+		<span class="nx">fx</span><span class="p">.</span><span class="nf">Options</span><span class="p">(</span><span class="nx">ctors</span><span class="o">...</span><span class="p">),</span>
+		<span class="nx">fx</span><span class="p">.</span><span class="nf">Options</span><span class="p">(</span><span class="nx">settings</span><span class="p">.</span><span class="nx">invokes</span><span class="o">...</span><span class="p">),</span>
+
+		<span class="nx">fx</span><span class="p">.</span><span class="nx">NopLogger</span><span class="p">,</span>
+	<span class="p">)</span>
+
+	<span class="c1">// TODO: we probably should have a &#39;firewall&#39; for Closing signal
+</span><span class="c1"></span>	<span class="c1">//  on this context, and implement closing logic through lifecycles
+</span><span class="c1"></span>	<span class="c1">//  correctly
+</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">app</span><span class="p">.</span><span class="nf">Start</span><span class="p">(</span><span class="nx">ctx</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="c1">// comment fx.NopLogger few lines above for easier debugging
+</span><span class="c1"></span>		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">xerrors</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;starting node: %w&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="nx">app</span><span class="p">.</span><span class="nx">Stop</span><span class="p">,</span> <span class="kc">nil</span>
+<span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">mkfoyw</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2021-07-12
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/filecoin/">filecoin</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/filecoin/filecoin-%E5%AD%98%E5%82%A8%E4%BB%93%E5%BA%93/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Filecoin 存储仓库</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="http://localhost:1313" class="iconfont icon-facebook" title="facebook"></a>
+      <a href="http://localhost:1313" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="http://localhost:1313" class="iconfont icon-google" title="google"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-pocket" title="pocket"></a>
+      <a href="http://localhost:1313" class="iconfont icon-tumblr" title="tumblr"></a>
+      <a href="http://localhost:1313" class="iconfont icon-instagram" title="instagram"></a>
+      <a href="http://localhost:1313" class="iconfont icon-gitlab" title="gitlab"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://localhost:1313/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>mkfoyw</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

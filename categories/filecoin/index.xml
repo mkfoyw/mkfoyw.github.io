@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>filecoin on Even - A super concise theme for Hugo</title>
+    <link>http://localhost:1313/categories/filecoin/</link>
+    <description>Recent content in filecoin on Even - A super concise theme for Hugo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 12 Jul 2021 15:25:31 +0800</lastBuildDate><atom:link href="http://localhost:1313/categories/filecoin/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Filecoin 存储仓库</title>
+      <link>http://localhost:1313/post/filecoin/filecoin-%E5%AD%98%E5%82%A8%E4%BB%93%E5%BA%93/</link>
+      <pubDate>Mon, 12 Jul 2021 15:25:31 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/filecoin/filecoin-%E5%AD%98%E5%82%A8%E4%BB%93%E5%BA%93/</guid>
+      <description>filecoin 的存储仓库也就是 repo 表现为文件系统上的一个目录， 用来存放的一些程序相关的数据。 在 filecoin 中有4中类型的仓库 1 2 3 4 5 6 7 const ( _ = iota // Default is invalid FullNode RepoType = iota</description>
+    </item>
+    
+    <item>
+      <title>Filecoin 依赖注入</title>
+      <link>http://localhost:1313/post/filecoin/filecoin-%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/</link>
+      <pubDate>Mon, 12 Jul 2021 15:19:03 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/filecoin/filecoin-%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/</guid>
+      <description>Filecoin 由一个个模块构成， 并采用 fx 实现各个模块间的依赖注入。 一般情况情况下，我们通过一个 New 函数构造一个对象，并通过函数参数方式手动传递各种依赖对象</description>
+    </item>
+    
+  </channel>
+</rss>

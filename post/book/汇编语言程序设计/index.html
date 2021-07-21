@@ -1,0 +1,2995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>汇编语言程序设计 - Even - A super concise theme for Hugo</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="mkfoyw" /><meta name="description" content="一些看书笔记 第1章 汇编语言 汇编语言是一门比较低级的语言， 但是又比机器指令更高级。 机器指令是一串二进制代码组成， 难以理解。 而汇编语言采用助记符" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0 with theme even" />
+
+
+<link rel="canonical" href="http://localhost:1313/post/book/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.af7fd1da18d66c2b017df5b4cae508ef44cfcac3fb4c7c7a327fe4f4f9e28b08.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="汇编语言程序设计" />
+<meta property="og:description" content="一些看书笔记 第1章 汇编语言 汇编语言是一门比较低级的语言， 但是又比机器指令更高级。 机器指令是一串二进制代码组成， 难以理解。 而汇编语言采用助记符" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/post/book/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-07-21T14:00:37&#43;08:00" />
+<meta property="article:modified_time" content="2021-07-21T14:00:37&#43;08:00" />
+
+<meta itemprop="name" content="汇编语言程序设计">
+<meta itemprop="description" content="一些看书笔记 第1章 汇编语言 汇编语言是一门比较低级的语言， 但是又比机器指令更高级。 机器指令是一串二进制代码组成， 难以理解。 而汇编语言采用助记符"><meta itemprop="datePublished" content="2021-07-21T14:00:37&#43;08:00" />
+<meta itemprop="dateModified" content="2021-07-21T14:00:37&#43;08:00" />
+<meta itemprop="wordCount" content="19486">
+<meta itemprop="keywords" content="book," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="汇编语言程序设计"/>
+<meta name="twitter:description" content="一些看书笔记 第1章 汇编语言 汇编语言是一门比较低级的语言， 但是又比机器指令更高级。 机器指令是一串二进制代码组成， 难以理解。 而汇编语言采用助记符"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Even</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Even</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">汇编语言程序设计</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-07-21 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#第1章-汇编语言">第1章 汇编语言</a>
+          <ul>
+            <li><a href="#标志寄存器">标志寄存器</a></li>
+          </ul>
+        </li>
+        <li><a href="#第二章-处理器架构">第二章 处理器架构</a>
+          <ul>
+            <li><a href="#什么是fpu">什么是FPU？</a></li>
+          </ul>
+        </li>
+        <li><a href="#第3章-相关工具">第3章 相关工具</a>
+          <ul>
+            <li><a href="#gdp">gdp</a></li>
+          </ul>
+        </li>
+        <li><a href="#第5章">第5章</a>
+          <ul>
+            <li><a href="#bss-段">bss 段</a></li>
+            <li><a href="#传送数据元素">传送数据元素</a></li>
+            <li><a href="#堆栈">堆栈</a></li>
+          </ul>
+        </li>
+        <li><a href="#第6章-控制执行流程">第6章 控制执行流程</a>
+          <ul>
+            <li><a href="#无条件分支">无条件分支</a></li>
+            <li><a href="#有条件分支">有条件分支</a></li>
+            <li><a href="#循环指令">循环指令</a></li>
+          </ul>
+        </li>
+        <li><a href="#使用数字">使用数字</a>
+          <ul>
+            <li><a href="#负数在计算中表示">负数在计算中表示</a></li>
+            <li><a href="#扩展数字">扩展数字</a></li>
+            <li><a href="#浮点数">浮点数</a></li>
+            <li><a href="#标准浮点数格式">标准浮点数格式</a></li>
+            <li><a href="#在汇编中使用浮点数">在汇编中使用浮点数</a></li>
+            <li><a href="#预置的浮点值">预置的浮点值</a></li>
+          </ul>
+        </li>
+        <li><a href="#第8章-基本的数学运算">第8章 基本的数学运算</a>
+          <ul>
+            <li><a href="#整数运算">整数运算</a></li>
+            <li><a href="#移位指令">移位指令</a></li>
+            <li><a href="#移位乘法">移位乘法</a></li>
+            <li><a href="#移位除法">移位除法</a></li>
+          </ul>
+        </li>
+        <li><a href="#第9章-高级的数学功能">第9章 高级的数学功能</a>
+          <ul>
+            <li><a href="#fpu-环境">FPU 环境</a></li>
+            <li><a href="#基本的浮点运算">基本的浮点运算</a></li>
+          </ul>
+        </li>
+        <li><a href="#第10章-处理字符串">第10章 处理字符串</a>
+          <ul>
+            <li><a href="#传送字符串">传送字符串</a></li>
+            <li><a href="#rep-前缀">REP 前缀</a></li>
+          </ul>
+        </li>
+        <li><a href="#第11章-使用函数">第11章 使用函数</a>
+          <ul>
+            <li><a href="#编写汇编函数">编写汇编函数</a></li>
+            <li><a href="#使用独立的函数文件">使用独立的函数文件</a></li>
+            <li><a href="#使用命令行参数">使用命令行参数</a></li>
+          </ul>
+        </li>
+        <li><a href="#第12章-使用-linux-系统调用">第12章 使用 Linux 系统调用</a>
+          <ul>
+            <li><a href="#linux-内核">linux 内核</a></li>
+            <li><a href="#系统调用">系统调用</a></li>
+            <li><a href="#跟踪系统调用">跟踪系统调用</a></li>
+            <li><a href="#系统调用-c-库函数">系统调用 C 库函数</a></li>
+          </ul>
+        </li>
+        <li><a href="#使用内联汇编">使用内联汇编</a></li>
+        <li><a href="#第14章-调用汇编库">第14章 调用汇编库</a></li>
+        <li><a href="#第15章-使用文件">第15章 使用文件</a>
+          <ul>
+            <li><a href="#打开和关闭文件">打开和关闭文件</a></li>
+            <li><a href="#读取文件">读取文件</a></li>
+            <li><a href="#内存映射文件">内存映射文件</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>一些看书笔记</p>
+</blockquote>
+<h2 id="第1章-汇编语言">第1章 汇编语言</h2>
+<p>汇编语言是一门比较低级的语言， 但是又比机器指令更高级。 机器指令是一串二进制代码组成， 难以理解。 而汇编语言采用助记符来表示这些二进制代码，并通过一些工具将这些助记符翻译成机器指令。</p>
+<p>汇编程序主要3个组件构成：</p>
+<ul>
+<li>操作码助记符</li>
+<li>数据段</li>
+<li>命令</li>
+</ul>
+<p>操作码助记符用来表示指令码。 而不同的汇编器或许会使用不同的助记符来表示指令码。</p>
+<h3 id="标志寄存器">标志寄存器</h3>
+<p><strong>什么是标志寄存器？ 标志寄存器有什么作用？</strong></p>
+<p>可以通过检查标志寄存器位用来判断处理器的操作是否成功。  在 IA32 平台上标志寄存器有32位，按照功能被分为3组：</p>
+<ul>
+<li>状态标志</li>
+<li>控制标志</li>
+<li>系统标志</li>
+</ul>
+<p>状态标识用来表示数学操作的结果。</p>
+<table>
+<thead>
+<tr>
+<th>标志</th>
+<th>位</th>
+<th>名称</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CF</td>
+<td>0</td>
+<td>进位标志</td>
+</tr>
+<tr>
+<td>PF</td>
+<td>2</td>
+<td>奇偶校验标志</td>
+</tr>
+<tr>
+<td>AF</td>
+<td>4</td>
+<td>辅助进位标志</td>
+</tr>
+<tr>
+<td>ZF</td>
+<td>6</td>
+<td>零标志</td>
+</tr>
+<tr>
+<td>SF</td>
+<td>7</td>
+<td>符号标志</td>
+</tr>
+<tr>
+<td>OF</td>
+<td>11</td>
+<td>溢出标志</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>如果无符号整数值的数学操作产生</p>
+</blockquote>
+<h2 id="第二章-处理器架构">第二章 处理器架构</h2>
+<h3 id="什么是fpu">什么是FPU？</h3>
+<p>在早期的处理器必须使用单独的处理器执行浮点数的操作。 后来需要快速的处理浮点数操作， 这些功能被添加到处理器中。 为了添加这些额外的功能需要添加额外的指令吗，寄存器和执行单元。这些东西统称为浮点单元(floating-point unit,FPU).</p>
+<p>下面是<code>x87</code>FPU 引入下列附加寄存器：</p>
+<table>
+<thead>
+<tr>
+<th>FPU寄存器</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据寄存器</td>
+<td>用于浮点数的8个80位寄存器</td>
+</tr>
+<tr>
+<td>状态寄存器</td>
+<td>报告FPU 的16位状态寄存器</td>
+</tr>
+<tr>
+<td>控制寄存器</td>
+<td>控制FPU精度的16位寄存器</td>
+</tr>
+<tr>
+<td>标记寄存器</td>
+<td>描述8个数据寄存器内容的16位寄存器</td>
+</tr>
+<tr>
+<td>FIP寄存器</td>
+<td>指向下一条FPU指令的48位FPU指令指针(FPU instruction pointer, FIP)</td>
+</tr>
+<tr>
+<td>FDP寄存器</td>
+<td>指向内存中数据的48位FPU数据指针(FPU data pointer, FDP)</td>
+</tr>
+<tr>
+<td>操作码寄存器</td>
+<td>保存FPU处理的最后指令的11位寄存器</td>
+</tr>
+</tbody>
+</table>
+<h2 id="第3章-相关工具">第3章 相关工具</h2>
+<p>为了编写汇编语言程序我们需要一些工具， 让我们的汇编程序准换成机器能够执行的二进制指令。  其通常会有下面的这些工具：</p>
+<ul>
+<li>汇编器</li>
+<li>连接器</li>
+<li>调试器</li>
+</ul>
+<p>汇编器功能时将汇编语言的源代码翻译成机器指令。 汇编语言的源代码主要有3个部分：</p>
+<ul>
+<li>操作码助记符</li>
+<li>数据段</li>
+<li>命令</li>
+</ul>
+<p>汇编器有很多， 之间最大的区别是命令。  <strong>命令指导程序员去入如何构建汇编程序。</strong>  一些汇编器的命令是很有限的， 一些汇编器命令有很多， 包含从定义数据段到 if-then 语句， 然后到 while 语句等。</p>
+<p>而操作码的助记符和机器指令码关系很紧密。  而我们选择汇编程序的原则是：它有能力尽可能地为我们目标环境创建指令码程序(二进制程序)。</p>
+<p>连接器用来连接目标代码。  在目标代码通常会引用其它的外部函数库， 而在连接器将目标代码中引用的外部函数连接到目标代码中，从而生成可执行程序。 连接器必须知道目标代码中引用外部函数(目标代码库)位于计算机的什么位置（或者提供外部动态库的引用），否则必须使用编译器的命令参数手工指定位置。</p>
+<p>在高级语言通常会把编译和连接合并成一个步骤。 在手动调用连接器的时候， 必须通知连接器函数库在什么位置以及将哪些目标代码连接成一起最终生成可执行未见。</p>
+<blockquote>
+<p>每个汇编器通常都包含自己的连接器。 我们总要使用与汇编器相匹配的连接器，以确保把函数连接在一起使用的库文件是兼容的， 和输出文件的格式对于目标平台是正确的。</p>
+</blockquote>
+<h3 id="gdp">gdp</h3>
+<p><strong>gdb 调试器由三种方式设置断点：</strong></p>
+<ul>
+<li>根据文件所在的行数</li>
+<li>根据函数的名字</li>
+<li>在运行时根据内存地址</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">break  *_start+1 
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>内存地址前必须加上 <em><strong>*</strong></em></p>
+</blockquote>
+<p><strong>如何打印寄存器的值</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">i registers               <span class="c1">#其中i 是info 的缩写</span>
+i all-registers           <span class="c1"># 打印更多寄存器的值</span>
+i registers  eax          <span class="c1"># 打印指定寄存器的值</span>
+p <span class="nv">$eax</span>                    <span class="c1"># 也是打印指定寄存器的值</span>
+p/x  <span class="nv">$edi</span>                 <span class="c1"># 以16 进制的形式打印寄存器的值</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>如何打印变量的值</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">x/nfu addr
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>gdb 采用x命令来打印变量中的值，含义为以 <code>f</code>格式打印从 <code>addr</code>开始的<code>n</code>个长度单元为u的内存值</strong></p>
+<ul>
+<li><code>n</code> 表示输出单元的数量</li>
+<li><code>f</code>: 是输出格式。 例如 <code>x</code>是以16进制， <code>o</code> 以8进制的形式输出。</li>
+<li><code>u</code>: 表示输出单元的长度。 b是一个byte，h是两个byte (halfword），w是四个byte（word），g是八个byte（giant word）。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="o">(</span>gdb<span class="o">)</span> x/d <span class="p">&amp;</span>value 
+0x402000:       <span class="m">100</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="第5章">第5章</h2>
+<p>所有的汇编程序都由3个段落构成；</p>
+<ul>
+<li>数据段</li>
+<li>bss 段</li>
+<li>文本段</li>
+</ul>
+<p>汇编语言的任务之一就是<strong>处理数据对象</strong>， 每种汇编语言必须管理某种类型的数据元素。</p>
+<p>在使用数据元素前， 我们通常会先定义数据元素。数据元素通常事定义在数据段中， 该段中的数据元素可以被汇编指令任意的读取和修改， 你可以使用 <code>.data</code> 定义数据段。</p>
+<blockquote>
+<p><code>.ordata</code> 可以定义只读的数据段。</p>
+</blockquote>
+<p>定义数据元素需要使用到两个语句：<strong>标签</strong> 和 <strong>一个命令</strong></p>
+<ul>
+<li>标签可以表示为数据元素在内存中起始位置， 通过标签就可以访问数据元素（类似指针）</li>
+<li>命令用来声明数据元素的类型。 数据元素的类型确定了， 也就知道数据元素应该保留的内存数量。</li>
+</ul>
+<blockquote>
+<p>为数据元素在内存中保留的内存数量取决于元素的类型和数量。 按照数据段中定义数据元素的顺序， 每个数据元素会被放到内存中。</p>
+</blockquote>
+<p>下面事汇编语言的一些声明命令：</p>
+<table>
+<thead>
+<tr>
+<th>声明命令</th>
+<th>数据类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.ascii</td>
+<td>文本字符串</td>
+</tr>
+<tr>
+<td>.asciz</td>
+<td>一空字符结尾的字符串</td>
+</tr>
+<tr>
+<td>byte</td>
+<td>字节值</td>
+</tr>
+<tr>
+<td>double</td>
+<td>双精度浮点数</td>
+</tr>
+<tr>
+<td>float</td>
+<td>单精度浮点数</td>
+</tr>
+<tr>
+<td>int</td>
+<td>32位整数</td>
+</tr>
+<tr>
+<td>long</td>
+<td>32位整数</td>
+</tr>
+<tr>
+<td>.octa</td>
+<td>16字节的整数</td>
+</tr>
+<tr>
+<td>quad</td>
+<td>8字节的整数</td>
+</tr>
+<tr>
+<td>.short</td>
+<td>16位整数</td>
+</tr>
+<tr>
+<td>.single</td>
+<td>单精度浮点数(和float相同</td>
+</tr>
+</tbody>
+</table>
+<p>下面事一些定义数据元素的例子</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-s" data-lang="s"><span class="n">output</span><span class="o">:</span>
+   <span class="n">.ascii</span> <span class="s">&#34;The processor Vendor ID is &#39;xxxxxxxxxxxx&#39;\n&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>定义了42个字节的字符串， 并把第一个字节出现的位置赋值给<code>output</code>标签。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-s" data-lang="s"><span class="kc">pi</span><span class="o">:</span>
+<span class="n">.float</span> <span class="m">3.1415</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>定义了一个单精度的浮点数的数据元素， 并该该数据元素出现的位置赋值给<code>output</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-s" data-lang="s"><span class="n">sizes</span><span class="o">:</span>
+<span class="n">.long</span> <span class="m">100</span><span class="p">,</span><span class="m">150</span><span class="p">,</span><span class="m">200</span><span class="p">,</span><span class="m">250</span><span class="p">,</span><span class="m">300</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>定义了包含5个长整数的数据元素， 并把第一个长整数的起始地址复制给sizes。  由于我们知道长整数占据4个字节， 那么可以使用 <code>sizes+4</code> 访问第二个数据元素， 以此类推。</p>
+<blockquote>
+<p>注： 在同一个数据段中， 我们可以定义多个数据元素。</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-s" data-lang="s"><span class="n">.section</span> <span class="n">.data</span> 
+<span class="n">buffer</span><span class="o">:</span>
+    <span class="n">.fill</span> <span class="m">1000</span> 
+</code></pre></td></tr></table>
+</div>
+</div><p><code>.fill</code> 会自动创建一个1000个数据元素，并且使用零值填充</p>
+<p><strong>在数据段中， 也可以定义一些不可以改变的值也就是静态符号</strong>。 你用可以使用 <code>.equ</code> 声明在整个程序运行中都不会变的值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-s" data-lang="s"><span class="n">.equ</span> <span class="n">factor</span> <span class="m">3</span> 
+<span class="n">.equ</span> <span class="n">LINUX_SYS_CALL</span> <span class="mh">0x80</span>
+
+
+<span class="n">movl</span> <span class="o">$</span><span class="n">LINUX_SYS_CALL</span><span class="p">,</span> %<span class="n">eax</span>  <span class="c1"># 将值0x80 传送到寄存器eax 中</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="bss-段">bss 段</h3>
+<p><strong>bss 段也是用来定义数据元素， 但是不需要声明数据元素的类型， 只需要声明需要保存的内存数量， 单位是字节</strong></p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.comm</td>
+<td>声明未初始化的数据通用内存区域</td>
+</tr>
+<tr>
+<td>.lcomm</td>
+<td>声明未初始化数据的本地通用内存区域</td>
+</tr>
+</tbody>
+</table>
+<p>这两种区域类似， 但是本地通用内存区域是不会从本地汇编代码之外进行访问的数据保留， 格式如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-s" data-lang="s"><span class="n">.comm</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">length</span> 
+</code></pre></td></tr></table>
+</div>
+</div><p>其中<code>symbol</code> 表示内存的区域的标签， 表示该内存区域的起始位置。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-s" data-lang="s"><span class="n">.section</span> <span class="n">.bss</span> 
+<span class="n">.common</span> <span class="n">buffer</span><span class="p">,</span> <span class="m">10000</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>声明了一个1000字节的内存区域， 并把该区域的起始地址复制给buffer。</p>
+<blockquote>
+<p>在 .bss 中声明的数据元素可以不包含在最终的可执行程序中。 而在 <code>.data</code> 中的数据元素必须被初始化， 最后会包含在可执行程序中。</p>
+</blockquote>
+<h3 id="传送数据元素">传送数据元素</h3>
+<p>由于定义的数据元素是在内存中，而处理器需要利用寄存器，所以处理数据元素的第一步就是在内存和寄存器中传送数据元素。</p>
+<p><strong>你知道什么是最常用的数据传送指令码？</strong></p>
+<p>知道啊， 当然是 MOV 啊。 其基本格式如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">mov source, destination
+</code></pre></td></tr></table>
+</div>
+</div><p>source 和 destination 的值可以是内存的地址，存储在内存的数据值，指令语句中定义的数据值，或者寄存器值。</p>
+<p><code>GNU</code> 汇编器的 <code>MOV</code> 指令必须指定要传送的数据长度 <code>movx</code>, 其中的 <code>x</code> 可以是下面的值。</p>
+<ul>
+<li><code>l</code> 用于32位的长字值</li>
+<li><code>w</code> 用于16位的字节值。</li>
+<li><code>b</code> 用于8位的字节值</li>
+</ul>
+<p><strong>如何知道数组中元素的地址？</strong></p>
+<p>在一个命令中，我们可以放入多个元素， 这就是数组</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-as" data-lang="as"><span class="nx">value</span><span class="o">:</span>
+    <span class="p">.</span><span class="nb">int</span> <span class="mi">10</span><span class="o">,</span><span class="mi">11</span><span class="o">,</span><span class="mi">12</span><span class="o">,</span><span class="mi">12</span><span class="o">,</span><span class="mi">323</span><span class="o">,</span><span class="mi">23</span><span class="o">,</span><span class="mi">323</span><span class="o">,</span><span class="mi">232</span><span class="o">,</span><span class="mi">232</span><span class="o">,</span><span class="mi">232</span><span class="o">,</span><span class="mi">32</span><span class="o">,</span><span class="mi">32</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>我们可以标签来引用单一的数据元素， 如果一个数据元素中包含多个值， 你必须使用变值系统。 这种模式称为变值内存模式(indexed momery mode), 其内存的位置由下面的因素构成：</p>
+<ul>
+<li>基址</li>
+<li>添加到基址的偏移地址</li>
+<li>数据元素中值的长度</li>
+<li>确定选择哪个数据值的变值
+表达式的格式：</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">base_addr(offset_address, index, size)
+</code></pre></td></tr></table>
+</div>
+</div><p>获取数据元素中某个值的地址为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">base_addr + offset_address + index * size 
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>注其中的任何值为0，都可以省略</p>
+</blockquote>
+<p><strong>什么是是间接寻址？</strong></p>
+<p>当寄存器中保存的不是数据值， 而是指向内存的一个地址， 这就是利用寄存器的间接寻址。</p>
+<p>间接寻址类似与c语言的中的指针。 通常的有两种方式把一个内存地址传送到寄存器：</p>
+<ol>
+<li>把内存地址传送到寄存器中</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-s" data-lang="s"><span class="n">movl</span> <span class="o">$</span><span class="n">out</span><span class="p">,</span> %<span class="n">edi</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p><strong>标签通常指向内存中的一个地址,在标签的名字签名使用$, 表示使用汇编器中的内存地址， 而不是位于这个地址的数据值</strong></p>
+</blockquote>
+<ol start="2">
+<li>将值传送到寄存器包好的内存地址中</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-s" data-lang="s"><span class="n">movl</span> <span class="o">%ebx, (%</span><span class="n">edi</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p><strong>edi 寄存器没有包含括号，则仅表示把ebx的值传送到edi寄存器。 如果加上了括号， 则表示把ebx 寄存器的值传送到 edi 寄存器中所包含的内存位置。</strong></p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-s" data-lang="s"><span class="n">movl</span> <span class="o">%eax, 4(%</span><span class="n">edi</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>将eax寄存器的值， 传送到edi 寄存器指向的位置的后4个字节的内存位置中。</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-s" data-lang="s"><span class="n">movl</span> <span class="o">%eax, -4(%</span><span class="n">edi</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>将eax寄存器的值， 传送到edi 寄存器指向的位置的前4个字节的内存位置中。</p>
+</blockquote>
+<blockquote>
+<p><strong>注：GNU 寄存器不允许值与寄存器的中的值相加， 必须放在括号外。</strong></p>
+</blockquote>
+<p><strong>什么是条件传送指令？</strong></p>
+<p>条件传送指令，其会根据标志寄存器中的一些标志，来决定是否出发传送操作。其基本格式如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">comvx source, destination 
+</code></pre></td></tr></table>
+</div>
+</div><p>其中<code>x</code>是一个或者两个字母，用来表示触发的条件。 条件取决于<code>EFLAGS</code> 寄存器的值。</p>
+<blockquote>
+<p>在使用条件传送指令前， 我们需要使用其它的指令， 合理的设置标志寄存器的值。</p>
+</blockquote>
+<p>条件的传送指令是成对的分组在一些，两个指令都有相同的含义。 例如一个值可以大于另一个值， 也可以表示为它是不小于另外一个值。</p>
+<p>条件传送指令可以分为用于带符号的操作和用于无符号操作的指令。</p>
+<table>
+<thead>
+<tr>
+<th>指令对</th>
+<th>描述</th>
+<th>EFLAGS 状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>COMVA/COMVNBE</td>
+<td>大于/不小于或者等于</td>
+<td>(CF或ZF) = 0</td>
+</tr>
+<tr>
+<td>COMVAE/COMVNB</td>
+<td>大于或者等于/不小于</td>
+<td>CF=0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>什么数据交换指令啊？</strong></p>
+<p>在程序同通常会遇到交换两个数据元素。 <code>MOV</code> 指令用于交换数据元素， 需要利用其它的寄存器来保存中间值， 而有些指令专门用于交换两个数据元素， 而不需要中间寄存器来保存值， 这就是数据交换指令。</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>XCHG</td>
+<td>在两个寄存器或者寄存器与内存之间交换值</td>
+</tr>
+<tr>
+<td>BSWAP</td>
+<td>反转一个32位寄存器中的字节顺序</td>
+</tr>
+<tr>
+<td>XADD</td>
+<td>交换两个值并且把总和存储在目标操作数中</td>
+</tr>
+<tr>
+<td>CMPXCHG</td>
+<td>将两个值进行比较并交换它和另外一个值</td>
+</tr>
+<tr>
+<td>CMPXCHG8B</td>
+<td>比较两个64位的值并交换他们</td>
+</tr>
+</tbody>
+</table>
+<p><strong>XCHG指令有什么作用呢</strong></p>
+<blockquote>
+<p>XCHG 是一个原子操作， 根据这个特性，可以实现锁。</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">XCHG operand1, operand2
+</code></pre></td></tr></table>
+</div>
+</div><p>operand1 和 operand2 可以是寄存器也可以是内存的位置（两者不能同时是内存的位置）</p>
+<blockquote>
+<p>XCHG 如果一个操作数是内存位置时，处理器的LOCK 信号会被表明，放置在交换中其他的处理器访问这个位置， 这是非常耗费性能的。</p>
+</blockquote>
+<p><strong>BSWAP指令有什么特殊作用呢</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">BSWAP REGISTER
+</code></pre></td></tr></table>
+</div>
+</div><p><code>BSWAP</code>用于反转寄存器的字节顺序。第0-7位和24-31位交换。 第 8-15 和 16 到23位进行交换。</p>
+<blockquote>
+<p>注意反转的是字节顺序，没有反转位顺序，这样就从小尾数值转换为大尾数值，反之亦然。</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">xadd source, destination
+</code></pre></td></tr></table>
+</div>
+</div><p>xadd 用于交换两个寄存器或者寄存器和内存位置的值，并把两个值相加存在目标位置（内存或者寄存器）。</p>
+<blockquote>
+<p>源寄存器必须是寄存器， destion 可以是寄存器也可以是内存中位置， 并且destionation 包好相加的结果， 寄存器可以是8位，16位，32位等。</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">cmpxchg source, destination
+</code></pre></td></tr></table>
+</div>
+</div><p>cmpxchg 用于比较两个寄存器或者寄存器和内存位置的值， 如果两个值相等，那么就把两个值相加，并存在目标位置中。</p>
+<blockquote>
+<p>类似 xadd</p>
+</blockquote>
+<h3 id="堆栈">堆栈</h3>
+<p>堆栈是内存中用于存放数据的专门保留的区域。 它的特殊之处在于数据插入到堆栈区域和从堆栈区域删除数据的方式。 在数据段中存放数据元素中， 会从最低的内存位置开始，然后依次向更高的内存中放置。  而堆栈行为正好相反， 堆栈中存放数据元素， 是放在内存区域的末尾位置（最高内存位置）， 并向下增长。  并且使用 <code>ESP</code> 寄存器值指向当前的栈顶。</p>
+<h4 id="压入数据和弹出数据">压入数据和弹出数据</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">pushx source 
+</code></pre></td></tr></table>
+</div>
+</div><p>其中 x 字符代码(l或者w)， 表示数据元素的长度。 source 是要放入堆栈的元素。 这个元素可以是来自寄存器的值， 内存值和立即数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">popx source
+</code></pre></td></tr></table>
+</div>
+</div><p>类似 pop， 只是source 只能是寄存器或者内存值。</p>
+<h4 id="压入和弹出所有的寄存器的元素">压入和弹出所有的寄存器的元素</h4>
+<p>处理器也提供了一种方式压入和弹出所有的寄存器值,用户快速或者和设置所有寄存器。</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PUSHA/POPA</td>
+<td>压入和弹出所有的16位通用寄存器</td>
+</tr>
+<tr>
+<td>PUSHAD/POPAD</td>
+<td>压入和弹出所有的32位通用寄存器</td>
+</tr>
+<tr>
+<td>PUSHF/POPF</td>
+<td>压入和弹出EFLAG寄存的最低16位</td>
+</tr>
+<tr>
+<td>PUSHFD/POPFD</td>
+<td>压入和弹出EFLAG寄存器的所有32位</td>
+</tr>
+</tbody>
+</table>
+<p>其中对于16位寄存的顺序分别为<code>DI,SI,BX,DX,CX,AX</code>.</p>
+<h4 id="手动的使用esp和ebp寄存器">手动的使用ESP和EBP寄存器</h4>
+<p>PUSH 和 POP 并不是把数据压入和弹出的唯一途径，也可以通过使用 ESP作为内存指针手动的将数据放入堆栈中。</p>
+<p>通常我们会把 ESP 寄存器中的值复制到 EBP 寄存器中， 而不直接使用 ESP 寄存器本身。 在汇编语言中通常把 EBP 指针指向函数的工作堆栈的基址。 访问存储在堆栈的参数指令相对于EBP这些参数。</p>
+<h2 id="第6章-控制执行流程">第6章 控制执行流程</h2>
+<p>在处理器执行指令时， 不大可能依次从第一条指令执行到最后一条指令， 通常我们需要跳转到某一条指令或者循环执行某些指令。</p>
+<p>指令指针指向处理器要执行地下一条指令， 处理器每次执行一条指令， EIP 寄存器中的值就会增加， 以指向下一条要指向地指令。 由于指令地长度是不固定地， 可能是多个字节， 因此指向下一条指令并不总是使指令指针加1.</p>
+<p>可以通过修改指令指针的值， 以便跳转到不同的段落，或者在段落内进行循环。但是程序不能使用 <code>MOV</code> 指令直接修改指令指针， 但是可以使用改变指令指针的指令， 这些指令称为<strong>分支</strong>。</p>
+<p>分支指令可以修改 <code>EIP</code> 寄存器的值， 要么是无条件的改动(无条件分支)， 有条件的改动（条件分支）</p>
+<h3 id="无条件分支">无条件分支</h3>
+<p>无条件分支有三种：</p>
+<ul>
+<li>跳转</li>
+<li>调用</li>
+<li>中断</li>
+</ul>
+<p><strong>跳转使用单一的指令码：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">jmp location
+</code></pre></td></tr></table>
+</div>
+</div><p>location 是要跳转到的内存地址， 在汇编语言中表示位程标签。</p>
+<p><strong><code>Call</code> 类似jmp 指令， 但是它保存发生跳转的位置， 并在它需要的时候有返回这个地址的能力。</strong></p>
+<p>调用的指令包含两个部分， 第一部分是 <code>Call</code> 指令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">call address
+</code></pre></td></tr></table>
+</div>
+</div><p>address 是汇编程序的标签， 它被转换为函数第一条指令的标签。 调用的指令第二部分是返回指令， 仅有注记符<code>RET</code> 表示。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">RET 
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>返回到CALL 指令的下一个地址， 通过查看堆栈，来确定其返回的地址。</strong></p>
+<p>中断时处理器“中断”当前指令码的路径切换到不同路径的方式。 中断有两种方式：</p>
+<ul>
+<li>软中断</li>
+<li>硬件中断</li>
+</ul>
+<p>硬件设备生成硬件中断。 使用硬件中断发出信号， 表示硬件层发生事件（例如I/O接口接收到信号）。 程序生成软件中断。 它们是把控制交给另一个程序。</p>
+<p>当一个程序被中断调用时， 发出调用的程序暂停， 被调用的程序接替它执行。</p>
+<p>软件中断是操作系统提供的， 使的应用程序能够调用操作系统内的函数。</p>
+<p>linux 中 0x80 的值的 <code>INT</code>指令会发出软件中断， 把控制权交给Linux 系统调用程序， Linux 系统调用程序有很多可以调用的子函数。 在中断发生时， 会按照<code>EAX</code>寄存器的值执行子函数。</p>
+<h3 id="有条件分支">有条件分支</h3>
+<p>条件分支会根据 <code>EFLAG</code> 标志寄存器的不同位的值来决定是否进行跳转。 其格式如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">jxx address
+</code></pre></td></tr></table>
+</div>
+</div><p>其中的 <code>xx</code> 1到3个字符的条件代码， address 表示程序要跳转到的位置</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>描述</th>
+<th>EFLAGS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JA</td>
+<td>如果大于(above),则跳转</td>
+<td>CF=0 与 ZF = 0</td>
+</tr>
+<tr>
+<td>JAE</td>
+<td>如果大于(above)或大于, 则跳转</td>
+<td>CF = 0</td>
+</tr>
+<tr>
+<td>JB</td>
+<td>如果小于(below), 则跳转</td>
+<td>CF = 1</td>
+</tr>
+<tr>
+<td>JBE</td>
+<td>如果小于(below)或等于</td>
+<td>CF=1 或 ZF = 0</td>
+</tr>
+<tr>
+<td>JC</td>
+<td>如果进位，则跳转</td>
+<td>CF = 1</td>
+</tr>
+</tbody>
+</table>
+<p>而比较指令会比较两个值， 并设置标志寄存器。其格式如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">cmp operand1, operand2 
+</code></pre></td></tr></table>
+</div>
+</div><p>比较指令的幕后操作是对两个操作数相减(operand1-operand2)。 比较指令不会修改这两个操作数， 但是发生减法操作， 就设置标志寄存器(EFLAGS).</p>
+<p>因此条件指令通常和比较指令搭配使用。</p>
+<h3 id="循环指令">循环指令</h3>
+<h2 id="使用数字">使用数字</h2>
+<h3 id="负数在计算中表示">负数在计算中表示</h3>
+<p><strong>在计算机中有3种方法描述负数：</strong></p>
+<ol>
+<li>带符号的数值
+把整数的构成分成两个部分：符号位和数值位。 字节的最大有效位（最左边的以为）用来表示符号位， 0 表示正数， 1 表示负数。 这样会导致出现下面的问题：
+<ul>
+<li>0 有中表示表示方式 <code>000000</code> 或者 <code>111111</code></li>
+<li>带符号数的有关的数值运算不能按照无符号的整数进行运算。</li>
+</ul>
+</li>
+<li>反码
+采用无符号整数相反的代码生成相应的负值。 例如 <code>000001</code> 其负数表示为 <code>111110</code>. 其也会出现下面的问题：
+<ul>
+<li>0 有中表示表示方式 <code>000000</code> 或者 <code>111111</code></li>
+<li>反码有关的数值运算不能按照无符号的整数进行运算。</li>
+</ul>
+</li>
+<li>补码
+<strong>对于负整数值， 其补码就是其反码加1.</strong> 例如为了得到-1的补码：
+<ul>
+<li>得到 <code>00000001</code>的反码 <code>11111110</code></li>
+<li>反码加1， 结果是<code>1111111</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="扩展数字">扩展数字</h3>
+<p>在某些情况下， 我们会使用某些长度的整数值，并且把这个值传递给长度大一些的位置（比如单字传递给双字）。</p>
+<ol>
+<li>扩展无符号整数值
+当把无符号整数值转换为更大的整数值时， 比如把单字转换为单字， 必须确保所有的高位被设置为0. 其有两种实现方式：
+<ul>
+<li>首先将位数更大的无符号整数值设为0</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">movl $0, %ebx 
+movl %ax, %ebx 
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>使用 MOVZX 指令</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">movzx source, destination
+</code></pre></td></tr></table>
+</div>
+</div><p>这条指令会将无符号的整数值（可以是在内存中或者寄存器中的）传递给位数更大的无符号的整数值（必须是寄存器中）.</p>
+</li>
+<li>扩展有符号整数值（负数值）
+在扩展有符号整数值（负数值）时， 进行扩展时， 其高位必须设置位1， 其也有两种方式：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">MOVSZX
+</code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<h3 id="浮点数">浮点数</h3>
+<p>浮点数可以使用整数模拟浮点数运算， 也可以使用专门的FPU芯片进行计算。</p>
+<p>浮点数是为了表示实数， 其浮点数可以有下面的表达方式：</p>
+<ol>
+<li>
+<p>浮点格式
+浮点格式采用科学计数法表示实数。 科学计数法把数字分为系数（coefficient)(也称为位数 mantissa ) 和 指数（exponent）。 比如<code>3.2425 * 10^2</code>, 其中<code>3.2425</code> 值是系数， <code>10^2</code> 是指数。 在10进制领域指数的基数是<code>10</code>.</p>
+</li>
+<li>
+<p>二进制浮点格式
+在计算机系统采用二进制浮点数格式， 才用二进制科学计数法表示实数，  其系数和指数都是采用二进制。 在表示小数是十进制和20进制需要进行特别的的注意：</p>
+<ul>
+<li>在10进制中， 对于<code>0.159</code> 这样的值可以表示为：<code>0+1/10+5/100+9/999</code></li>
+<li>在2 进制中， 对于<code>1.0101</code> 可以表示为 <code>1 + 0/2 + 1/4 + 0/8 + 1/16</code></li>
+</ul>
+<p>下面是几个二进制小数和他们对应的十进制值：</p>
+<table>
+<thead>
+<tr>
+<th>二进制</th>
+<th>十进制分数</th>
+<th>十进制值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.1</td>
+<td>1/2</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>0.01</td>
+<td>1/4</td>
+<td>0.25</td>
+</tr>
+<tr>
+<td>0.001</td>
+<td>1/8</td>
+<td>0.125</td>
+</tr>
+<tr>
+<td>0.0001</td>
+<td>1/16</td>
+<td>0.0625</td>
+</tr>
+<tr>
+<td>0.00001</td>
+<td>1/32</td>
+<td>0.03125</td>
+</tr>
+<tr>
+<td>0.000001</td>
+<td>1/64</td>
+<td>0.015625</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h3 id="标准浮点数格式">标准浮点数格式</h3>
+<p>在1985年， 电子和电气工程师学会（Institute of Electrical and Electronical Engineering, IEEE)创建了称为IEEE754的浮点格式， 其使用3个成分把实数的浮点格式：</p>
+<ul>
+<li>符号。 1 表示负值， 0 表示正值</li>
+<li>有效数字。 也就是科学表示法中的系数。 其可以是规格化的， 也可以是没有规格化的。 规格化的小数点前面只有一位。</li>
+<li>指数。 也就是科学表示法中的指数。 而指数可以正值， 也可以是负值，因此使用一个偏差值对它进行置偏。 这样确保指数部分只表示正值</li>
+</ul>
+<blockquote>
+<p>什么是偏差值</p>
+</blockquote>
+<p>IEEE标准754定义了浮点数有两种：</p>
+<ul>
+<li>32位（单精度）</li>
+<li>64位（双精度）</li>
+</ul>
+<p>其中的有效数字的位的数量决定精度。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"> 31  30                            23 22                          0
+|————————————————————————————————————|————————————————————————————|
+| |        exp                       | coefficient                |
+|—————————————————————————————————————————————————————————————————|
+ 符号            指数                         系数
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>单精度的浮点数使用23位有效值， 但是有效值的整数部分永远位1， 那么实际的有效数字的精度达到了24位。</li>
+<li>指数使用8位， 偏差值为127， 这样指数值的范围为 -128 到 127.</li>
+</ul>
+<h3 id="在汇编中使用浮点数">在汇编中使用浮点数</h3>
+<p>使用 <code>FLD</code> 指令用于把浮点数传入和传送出 <code>FPU</code> 寄存器。 其格式如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">FLDx <span class="nb">source</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>x的值可以为 <code>f</code> 单精度浮点值， <code>l</code> 双精度浮点值。 其中的 source 可以是32位， 64位，或者80位的内存地址。</p>
+<p>使用 <code>FST</code> 用于获取 <code>FPU</code> 寄存器中堆栈中顶部的值， 并放在内存中。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">fstx destination
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="预置的浮点值">预置的浮点值</h3>
+<p>在 <code>IA32</code> 指令集包含一些预置的浮点值， 你们可以把它们加载到 FPU 寄存器堆栈中。</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FLD1</td>
+<td>把 +1.0 压入到FPU 堆栈中</td>
+</tr>
+<tr>
+<td>FLDL2T</td>
+<td>把 10 的对数（底数2）压入 FPU 堆栈中</td>
+</tr>
+<tr>
+<td>FLDL2E</td>
+<td>把 e 的对数（底数2） 压入 FPU 堆栈中</td>
+</tr>
+<tr>
+<td>FLDPI</td>
+<td>把 pi 的值压入到 FPU 堆栈中</td>
+</tr>
+<tr>
+<td>FLDLG2</td>
+<td>把 2 的对数(底数10)压入 <code>FPU</code> 堆栈中</td>
+</tr>
+<tr>
+<td>FLDLN2</td>
+<td>把 2 的对数(底数e)压入 <code>FPU</code> 堆栈中</td>
+</tr>
+<tr>
+<td>FLDZ</td>
+<td>把 +0.0 压入到  <code>FPU</code>堆栈中</td>
+</tr>
+</tbody>
+</table>
+<h2 id="第8章-基本的数学运算">第8章 基本的数学运算</h2>
+<h3 id="整数运算">整数运算</h3>
+<h4 id="加法">加法</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">addx source, destination 
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>其中 source ，可以即时数，内存地址，寄存器。 destination 也可以是寄存器或者内存位置存储的值（source 和 destination 不能同时是内存位置中的值），并把计算结果存储在目的地址中。</li>
+<li>x 表示操作数的长度， b（字节），w（字）或者 l（双字）</li>
+</ul>
+<p><strong>检查进位或者溢出情况</strong></p>
+<p>当两个数相加时：</p>
+<ul>
+<li>对于无符号整数， 当二进制出现进位的情况（即结果大于允许的值）， 其<strong>进位标识（carry flag）</strong> 设为1</li>
+<li>对于有符号整数， 出现溢出的情况时（即结果值小于最小的负值， 或者结果值大于允许的最大的正值）， 其 <strong>溢出标识（overflow flag）</strong> 会被设置为1</li>
+</ul>
+<blockquote>
+<p>对于EFLANG 寄存器的进位标识和溢出标识设置为1， 说明目标操作数的长度太小， 不能够保存加法的结果， 并且包含非法值， 这个值将是答案的“溢出”部分。
+对于带符号整数检查进位标识是没有意义的， 不仅对于结果值大于允许值会设置进位标识， 在结果值小于0也会设置他。</p>
+</blockquote>
+<h4 id="减法">减法</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">subx source, destination 
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>sub 指令可以运用于无符号整数和有符号整数</li>
+<li>其中从destination 中减去 source， 并把结果存在 destination 中source 和 destination 不能同时是内存位置中的值）。</li>
+<li>x 表示操作的位数，  b（字节），w（字）或者 l（双字）</li>
+</ul>
+<p>在加法中进位和溢出</p>
+<p>在使用<code>sub</code> 命令后， 其也会合理的设置标识寄存器， 处理器并不知道操作数是无符号整数还是有符号整数。</p>
+<ul>
+<li>对于无符号整数， 如果结果值小于0， 其进位标识设置1 。</li>
+<li>对于有符号整数， 如果结果值超过了目的操作数能够保存的长度值， 那么其进位标识会变成1.</li>
+</ul>
+<blockquote>
+<p><strong>总结</strong>
+无论是加法操作还是减法操作， 进位标识和溢出标识都是结果值位数超过了目的操作数能够保存的位数。
+对于无符号整数， 检查进位标识(jc)； 对于有符号整数， 检查溢出标识(jo)</p>
+</blockquote>
+<h4 id="递增和递减">递增和递减</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">inc destination 
+dec destination 
+</code></pre></td></tr></table>
+</div>
+</div><p>inc 和 des 对无符号整数进行递增和递减操作，其不会影响到进位标志。 其中 <code>destionation</code> 可以是 8位，16位，或者32位的寄存器或者内存中的值。</p>
+<h4 id="乘法">乘法</h4>
+<p>对于有符号整数和无符号整数乘法操作需要使用不同的指令。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">mulx source 
+</code></pre></td></tr></table>
+</div>
+</div><p>mul 用于无符号整数的乘法运行。 x 表示源操作的位数。  <code>source</code> 可以是 8位，16位，或者32位的寄存器或者内存值。 而其目的操作数隐含的, 规定是 <code>EAX</code> 寄存器的某种形式， 这取决于源操作的长度。 mul 规定目存放执行结果的目标位置的长度必须是源操作数的两倍。 下面是不同长度源操作数对应的目的操作数。</p>
+<table>
+<thead>
+<tr>
+<th>源操作数的长度</th>
+<th>目标操作数</th>
+<th>目标位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8位</td>
+<td>AL</td>
+<td>AX</td>
+</tr>
+<tr>
+<td>16位</td>
+<td>AX</td>
+<td>EAX</td>
+</tr>
+<tr>
+<td>32位</td>
+<td>EAX</td>
+<td>DAX:EAX</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>对于32的源操作数， 其目的结果高32位存放在EDX中， 低32位存放在 EAX 中。</p>
+</blockquote>
+<p>imulx 用于有符号整数相乘， 其有3种格式：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">imulx source 
+</code></pre></td></tr></table>
+</div>
+</div><p>类似 <code>mulx</code>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">imulx source, destination 
+</code></pre></td></tr></table>
+</div>
+</div><p>这种格式允许你指定目的操作的位置， 但是其结果被限制为单一的寄存器值（非64位结果），必须注意不要溢出。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">imulx multiplier, source, destination 
+</code></pre></td></tr></table>
+</div>
+</div><p>这种格式允许你快速的使用一个立即数和source 相乘， 并把结果存到 <code>destination</code> 中。</p>
+<blockquote>
+<p><strong>在使用带符号整数时， 总要检查结果是否溢出（jo)</strong></p>
+</blockquote>
+<h4 id="除法">除法</h4>
+<p>同整数运算一样， 对于无符号整数和有符号整数都需要使用不同的除法指令。</p>
+<p>div 是用于无符号整数除法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">div divisor 
+</code></pre></td></tr></table>
+</div>
+</div><p>其中 divisor 是除数， 它可以是8位，16位或者32位的寄存器或者内存值。 被除数是隐含指定的值。 被除数默认已经存储到 AX(16位值),DX:AX(32位)， 或者EDX:EAX(64)中。 除数的长度是由被除数的长度决定的。 对于16位的被除数，除数只能是8位。 对于32位的被除数，除数只能是16位。 对于64位的被除数，除数只能是32位。</p>
+<p><strong>除法的结果包含商和余数</strong>， 其存储位置在下图中：</p>
+<table>
+<thead>
+<tr>
+<th>被除数</th>
+<th>被除数长度</th>
+<th>商</th>
+<th>余数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AX</td>
+<td>16位</td>
+<td>AL</td>
+<td>AH</td>
+</tr>
+<tr>
+<td>DX:AX</td>
+<td>32位</td>
+<td>AX</td>
+<td>DX</td>
+</tr>
+<tr>
+<td>EDX:EAX</td>
+<td>64位</td>
+<td>EAX</td>
+<td>EDX</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>因此结果值会改变被除数的值。</p>
+</blockquote>
+<p>idiv 用于有符号整数除法， 其格式只有一种</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">idiv divisor 
+</code></pre></td></tr></table>
+</div>
+</div><p>如果除数位0， 将会操作系统会产生一种错误。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">root@W8-172-19-50-18:~/git/pal# ./subtest1 
+Floating point exception (core dumped)
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>在进行除法操作以前，检查除数和被除数是否是0， 这是程序员的责任。</p>
+</blockquote>
+<h3 id="移位指令">移位指令</h3>
+<p>移位指令用于快速的执行乘以或者除以2的冥次方。</p>
+<h3 id="移位乘法">移位乘法</h3>
+<p>有两个指令可以使整数向左移位：SAL(向左算术移位) 和 SHL(向左逻辑移位)，两个指令执行相同的操作， 并且可以互换。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">salx destination 
+salx %cl, destination 
+salx shifter, destination
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>第一种把 destination 的值移动移一位， 这等同于乘以2</li>
+<li>第二种把 destination 的值移动cl寄存器中指定的位数。</li>
+<li>第三种把 destination 移动 shifter 指定的位数。</li>
+</ul>
+<blockquote>
+<p>对于左移造成的位数空缺会采用 0 补齐
+对于移位造成的超出长度的任何位首先会放入进位标志中，然后在下一次移位中抛弃。</p>
+</blockquote>
+<h3 id="移位除法">移位除法</h3>
+<p>有两个指令可以是的整数向右移位：</p>
+<ul>
+<li>SHR 会清空移位造成的空缺， 只能用于无符号整数。</li>
+<li>SAR 会根据符号位设置移位造成的空缺， 对于正整数用0设置， 对于负数用1设置。</li>
+</ul>
+<h2 id="第9章-高级的数学功能">第9章 高级的数学功能</h2>
+<p>FPU 是一个独立的单元，它使用与标准处理器寄存器分离的一组寄存器处理浮点操作。 附加的 FPU 寄存器包括8个80位的数据寄存器和3个16位寄存器， 称为控制(control)、状态(status)和标记(tag)寄存器.</p>
+<h3 id="fpu-环境">FPU 环境</h3>
+<h4 id="fpu-寄存器堆栈">FPU 寄存器堆栈</h4>
+<p>FPU 寄存器称为 R0 到 R7（但是你不能使用名称去使用他们）， 它们被组织成一个循环的堆栈——堆栈中的最后一个寄存器连接回堆栈中第一个寄存器。</p>
+<p><strong>堆栈顶部的寄存器是在 FPU 的控制寄存器中定义的</strong>， 名为 ST(0), 除了顶部寄存器其它的寄存器被命名位ST(x), x 可以是 0到7.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">             FPU 寄存器堆栈
+   |----------------------------|
+ R0|                            | ST(0)
+   |----------------------------|
+ R1|                            | ST(1)
+   |----------------------------|
+ R2|                            | ST(2)
+   |----------------------------|
+ R3|                            | ST(3)
+   |----------------------------|
+ R4|                            | ST(4)
+   |----------------------------|
+ R5|                            | ST(5)
+   |----------------------------|
+ R6|                            | ST(6)
+   |----------------------------|
+ R7|                            | ST(7)
+   |----------------------------|
+</code></pre></td></tr></table>
+</div>
+</div><p>当数据被添加到 FPU 堆栈中时， 堆栈顶部沿着8个寄存器向下移动。 当8个值被加载到堆栈中后， 所有的寄存器已经被使用。 如果加载第9个数字的时候，堆栈指针会回绕到第一个寄存器， 并且用新的值替换这个寄存器中的值，这会产生FPU异常错误。</p>
+<h5 id="fpu-状态-控制和标记寄存器">FPU 状态， 控制和标记寄存器</h5>
+<p>FPU 独立于主处理器， 不会使用 EFLAGS 寄存器， 其会使用状态寄存器，控制寄存器和标记寄存器用于存取FPU特性和确定FPU 状态。</p>
+<p><strong>状态寄存器，有16位， 用来表示 FPU 操作情况。</strong></p>
+<table>
+<thead>
+<tr>
+<th>状态位</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>非法操作异常标志</td>
+</tr>
+<tr>
+<td>1</td>
+<td>非规格化操作数异常标志</td>
+</tr>
+<tr>
+<td>2</td>
+<td>除数为0异常标识</td>
+</tr>
+<tr>
+<td>3</td>
+<td>溢出异常标志</td>
+</tr>
+<tr>
+<td>4</td>
+<td>下溢异常标志</td>
+</tr>
+<tr>
+<td>5</td>
+<td>精度异常标志</td>
+</tr>
+<tr>
+<td>6</td>
+<td>堆栈错误</td>
+</tr>
+<tr>
+<td>7</td>
+<td>错误汇总状态</td>
+</tr>
+<tr>
+<td>8</td>
+<td>条件代码为0(c0)</td>
+</tr>
+<tr>
+<td>9</td>
+<td>条件代码为1(c1)</td>
+</tr>
+<tr>
+<td>10</td>
+<td>条件代码为2(c2)</td>
+</tr>
+<tr>
+<td>11-13</td>
+<td>堆栈顶部指针</td>
+</tr>
+<tr>
+<td>14</td>
+<td>条件代码为3(c3)</td>
+</tr>
+<tr>
+<td>15</td>
+<td>FPU繁忙标志</td>
+</tr>
+</tbody>
+</table>
+<p>使用 FSTSW 可以把 FPU 状态寄存器的值读取到一个双字的内存地址或者寄存器中：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">fstsw destination 
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>默认情况下 FPU 状态寄存器中的值为0</p>
+</blockquote>
+<p><strong>控制寄存器， 有16位， 用来控制FPU 的功能 。</strong></p>
+<table>
+<thead>
+<tr>
+<th>控制位</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>非法操作异常掩码</td>
+</tr>
+<tr>
+<td>1</td>
+<td>非规格化操作数异常掩码</td>
+</tr>
+<tr>
+<td>2</td>
+<td>除数为0异常掩码</td>
+</tr>
+<tr>
+<td>3</td>
+<td>溢出异常掩码</td>
+</tr>
+<tr>
+<td>4</td>
+<td>下溢异常掩码</td>
+</tr>
+<tr>
+<td>5</td>
+<td>精度异常掩码</td>
+</tr>
+<tr>
+<td>6-7</td>
+<td>保留</td>
+</tr>
+<tr>
+<td>8-9</td>
+<td>精度控制</td>
+</tr>
+<tr>
+<td>10-11</td>
+<td>舍入控制</td>
+</tr>
+<tr>
+<td>12</td>
+<td>无穷大控制</td>
+</tr>
+<tr>
+<td>13-15</td>
+<td>保留</td>
+</tr>
+</tbody>
+</table>
+<p>下面是精度控制位可能的结果：</p>
+<ul>
+<li>00 —— 单精度(24位有效位)</li>
+<li>01 —— 未使用</li>
+<li>10 —— 双精度(53位有效位)</li>
+<li>11 —— 扩展双精度(64位有效位)</li>
+</ul>
+<blockquote>
+<p>默认情况下被设置成扩展双精度， 这是最为精确的值， 当然也是最消耗时间的。 你也可以设置成其它的精度。</p>
+</blockquote>
+<p>舍入控制位设置 FPU 如何舍入运算结果。</p>
+<ul>
+<li>00 —— 舍入到最近的值</li>
+<li>01 —— 向下舍入（向无穷大负值）</li>
+<li>10 —— 向上舍入 (向无穷大正值)</li>
+<li>11 —— 向0 舍入</li>
+</ul>
+<p>使用 FSTCW 可以把 FPU 控制寄存器寄存器的值读取到一个双字的内存地址：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">fstcw destination 
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>标记寄存器， 有16位， 用来标志8个80位FPU数据寄存器的值</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">               16位标记寄存器
+15                                           0
+|————|————|————|————|————|————|————|————|
+| R0 |  R1 |  R2 | R3 | R4  | R5  | R6 |  R7 |
+|————|————|————|————|————|————|————|————|
+</code></pre></td></tr></table>
+</div>
+</div><p>标记寄存器的每两位用来表示数据寄存器的内容</p>
+<ul>
+<li>00 —— 一个合法的扩展双精度值</li>
+<li>01 ——  零值</li>
+<li>10 —— 特殊的浮点数</li>
+<li>11 —— 无内容(空)</li>
+</ul>
+<blockquote>
+<p>用户可以通过标记寄存器快速的确定 FPU 寄存器中是否包含合法的内容，而不必读取和分析寄存器中的内容。</p>
+</blockquote>
+<h3 id="基本的浮点运算">基本的浮点运算</h3>
+<p>下面是基本浮点数运算指令：</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FADD</td>
+<td>浮点数加法</td>
+</tr>
+<tr>
+<td>FDIV</td>
+<td>浮点数除法</td>
+</tr>
+<tr>
+<td>FDIVR</td>
+<td>反向浮点数除法</td>
+</tr>
+<tr>
+<td>FMUL</td>
+<td>浮点数乘法</td>
+</tr>
+<tr>
+<td>FSUB</td>
+<td>浮点减法</td>
+</tr>
+<tr>
+<td>FSUBR</td>
+<td>反向浮点数减法</td>
+</tr>
+</tbody>
+</table>
+<p>每个指令都6个可能的用法， 例如 <code>FADD</code> 指令:</p>
+<ul>
+<li>FADD sourece: 内存中的32位或者64位的值和 st(0) 寄存器相加</li>
+<li>FADD %st(x), %st(0): st(x) 和 st(0) 相加， 并把结果存在st(0) 中。</li>
+<li>FADD %st(0), %st(x): st(0) 和 st(x) 相加， 并把结果存在st(x) 中。</li>
+<li>FADDP %st(0), %st(x): st(0) 和 st(x) 相加， 并把结果存在st(x) 中, 并且弹出 st(0)</li>
+<li>FADDP %st(x), %st(0): st(x) 和 st(0) 相加， 并把结果存在st(0) 中, 并且弹出 st(0)</li>
+<li>FIADD soure: 将16位或者32位的整数值与 st(0) 相加， 并把结果存在 st(0) 中。</li>
+</ul>
+<h2 id="第10章-处理字符串">第10章 处理字符串</h2>
+<h3 id="传送字符串">传送字符串</h3>
+<p><code>movs</code> 用于把字符串从一个内存位置传送到另外一个内存位置， 其有3中格式：</p>
+<ul>
+<li>movsb：传送单一字节</li>
+<li>movsw：传送一个字(2字节)</li>
+<li>movsl：传送一个双字(4字节)</li>
+</ul>
+<p><code>movs</code> 指令使用隐含的源和目标操作数。 隐含的源操作数是 ESI 寄存器。 它指向源字符串的内存位置。 隐含的目标操作数是 EDI 寄存器。 它指向字符串要被复制到的目标内存位置。</p>
+<p>使用 <code>GNU</code> 汇编器有两种方式加载 <code>ESI</code> 和 <code>EDI</code> 值：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">movl $output, %edi 
+</code></pre></td></tr></table>
+</div>
+</div><p>使用间接寻址的方式， 通过内存位置标签上加上 <code>$</code> 符号， 内存位置就被加载到 <code>edi</code> 和 <code>esi</code> 寄存器。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">leal output, %edi 
+</code></pre></td></tr></table>
+</div>
+</div><p>lea 加载一个对象的有效地址到 <code>edi</code> 寄存器中。 因为 linux 使用32位值引用内存地址， 所以对象的地址也必须存储到32位的目标值中。  源操作数必须是一个内存地址。</p>
+<p>在每次执行MOVS 时， 在数据传送后， EDI 和 ESI 寄存器会自动改变， 为另外一次传送做好准备。 并且 EDI 和 ESI 有两个改变方向：递增或递减。  这取决于 EFLAGS 寄存器的 <code>DF</code> 标志的值，<code>DF=0</code> 那么 EDI 和 ESI 就会自增，<code>DF=1</code> 那么 EDI 和 ESI 就会自减 。 你可以使用下面的两条指令设置 <code>EDI</code> 和 <code>ESI</code> 的值：</p>
+<ul>
+<li>CLD 用于 <code>DF</code> 标志清零</li>
+<li>STD 用于设置 <code>DF</code> 标志。</li>
+</ul>
+<h3 id="rep-前缀">REP 前缀</h3>
+<p>REP 指令用于按照特定的次数重复执行字符串指令， 直到ECX寄存器中的值为0</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">movl $32, %ecx 
+rep 
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="第11章-使用函数">第11章 使用函数</h2>
+<h3 id="编写汇编函数">编写汇编函数</h3>
+<p>在汇编程序中编写函数需要3个步骤：</p>
+<ul>
+<li>定义要输入的值</li>
+<li>定义对输入的值要执行的操作</li>
+<li>定义如何生成输出值以及如何把输出值传递给调用者程序。</li>
+</ul>
+<p>有三种方式定义程序的输入数据：</p>
+<ul>
+<li>使用寄存器</li>
+<li>使用全局变量</li>
+<li>使用堆栈</li>
+</ul>
+<p>在定义处理输入的值的时候， 函数是一般的汇编代码， 但是函数代码必须和主程序代码分隔开， 下面定义函数一般过程：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">.type func1 @function 
+func1:
+
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>.type 定义函数名称</li>
+<li>标签 <code>func1</code> 定义函数的开始。</li>
+</ul>
+<p>在函数完成对数据的处理后， 有多种方式返回结果到主程序：</p>
+<ul>
+<li>把结果存放到一个或者多个寄存器中</li>
+<li>把结果放在全局变量的内存位置中。</li>
+</ul>
+<p>访问函数是非常简单的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">call function 
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-s" data-lang="s"><span class="n">.type</span> <span class="n">area</span><span class="p">,</span> <span class="o">@</span><span class="n">function</span> 
+<span class="n">area</span><span class="o">:</span>
+    <span class="n">fldpi</span> 
+    <span class="n">imull</span> <span class="o">%ebx, %</span><span class="n">ebx</span> 
+    <span class="n">movl</span> <span class="o">%ebx, value 
+</span><span class="o">    filds value 
+</span><span class="o">    fmulp %</span><span class="nf">st</span><span class="p">(</span><span class="m">0</span><span class="p">),</span> %<span class="nf">st</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+
+    <span class="n">ret</span> 
+</code></pre></td></tr></table>
+</div>
+</div><p>函数可以放在 <code>_start</code> 之前， 也可以放在 <code>_start</code> 之后， 但是必须和 <code>_start</code> 的代码隔开。</p>
+<h4 id="按照-c-函数的方式传递值">按照 C 函数的方式传递值</h4>
+<p>在函数中处理输入和输出值可用的选择很多， 如寄存器和全局变量。为了避免跟踪函数使用了哪些寄存器和全局变量， <strong>必须使用某一标准一致的存放输入参数以便函数获取， 并且一致的存放输出值便于主程序获取。</strong></p>
+<p><strong>C 语言采用堆栈的方式把函数的输入值传递给函数。</strong></p>
+<p>C 也定义通用的方式把值返回给主程序：</p>
+<ul>
+<li>EAX 寄存器用于32位的结果(比如32位整数)</li>
+<li>EDX:EAX 寄存器用于 64位的值</li>
+<li>FPU 的 st(0)寄存器用于浮点数值</li>
+</ul>
+<p>堆栈由为程序分配的内存末尾处保留内存构成。 ESP 寄存器用于指向内存中堆栈的顶部。 只能把数据存放到堆栈的顶部，并且只能从堆栈的顶部删除数据。</p>
+<ul>
+<li>使用 <code>PUSH</code> 指令把数据存放到堆栈中， 并把堆栈指针(ESP 寄存器)值递减为新的数据位置。</li>
+<li>使用 <code>POP</code> 指令把数据传送到寄存器或者内存位置中， 并把ESP寄存器寄存器的值递增为前一个堆栈的数据值。</li>
+</ul>
+<p>在调用函数前必须把函数的参数堆栈中。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">                           程序堆栈：
+               |——————————————————————————————|
+               |                              |
+               |                              |
+               |                              |
+               |                              |
+               |                              |
+               |                              |
+               |——————————————————————————————|
+               |          函数的参数3          |
+               |——————————————————————————————|
+               |          函数的参数2          |
+               |——————————————————————————————|
+               |          函数的参数1          |
+               |——————————————————————————————|
+               |          返回地址             |
+ ESP ————&gt;     |——————————————————————————————|
+</code></pre></td></tr></table>
+</div>
+</div><p>执行 CALL 指令时， 它把发出调用的程序的返回地址也放在堆栈顶部。</p>
+<p>由于函数的返回地址在堆栈顶部， 因此不能采用 “Push” 和 “Pop” 的方式访问函数的参数， 以免返回地址丢失。 可以采用距离ESP寄存器的偏移量来间接寻址访问每个参数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">                           程序堆栈：
+               |——————————————————————————————|
+               |                              |
+               |                              |
+               |                              |
+               |                              |
+               |                              |
+               |                              |  间接寻址
+               |——————————————————————————————|
+               |          函数的参数3          |  12(%esp)
+               |——————————————————————————————|
+               |          函数的参数2          |  8(%esp)
+               |——————————————————————————————|
+               |          函数的参数1          |  4(%esp)
+               |——————————————————————————————|
+  ESP ————&gt;    |          返回地址             |  %(esp)
+               |——————————————————————————————|
+</code></pre></td></tr></table>
+</div>
+</div><p>但是在函数处理某个部分的时候或许会把某些数据压入堆栈中， 这会改变 ESP 指针位置， 这样会丢失用于访问堆栈中参数间接寻址的位置。</p>
+<p>为了避免丢失访问堆栈的参数能力， 通常会把 ESP 的值复制一份到 EBP 中。 而为了破坏原始的 EBP 值， 也会在复制 ESP 值前， 把 EBP 的值放入堆栈中。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">                           程序堆栈：
+               |——————————————————————————————|
+               |                              |
+               |                              |
+               |                              |
+               |                              |
+               |                              |
+               |                              |  间接寻址
+               |——————————————————————————————| 
+               |          函数的参数3          |  16(%esp)
+               |——————————————————————————————|
+               |          函数的参数2          |  12(%esp)
+               |——————————————————————————————|
+               |          函数的参数1          |  8(%ebp)
+               |——————————————————————————————|
+               |          返回地址             |  4%(ebp)
+               |——————————————————————————————|
+               |          旧的 ebp            |  %(ebp)
+   ESP ————&gt;   |——————————————————————————————|
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="函数的开头结尾">函数的开头结尾</h4>
+<p>使用堆栈来引用函数的参数， 都有一组标准指令， 在所有的C函数中都会使用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">function:
+   pushl %ebp 
+   movl %esp, %ebp 
+
+   .
+   .
+
+   movl %ebp, %esp 
+   popl %ebp
+   ret 
+</code></pre></td></tr></table>
+</div>
+</div><p>前两台指针把 EBP 中的值放入堆栈中， 并把原始 ESP 值放入 EBP 寄存器中。</p>
+<p>最后两条指令获取存储在 EBP 中原始的 ESP 值， 并从堆栈中恢复 EBP 值。</p>
+<p><code>ENTER</code> 和 <code>LEAVE</code> 指令专门用户建立函数的开头（ENTER) 和 结尾（LEAVE），避免手动创建开头和结尾。</p>
+<h4 id="定义局部变量">定义局部变量</h4>
+<p>在函数中定义局部变量， 我们或许可以把局部变量放在 EBP 指针后面， 并通过偏移地址访问。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">                           程序堆栈：
+               |——————————————————————————————|
+               |                              |
+               |                              |
+               |                              |
+               |                              |
+               |                              |
+               |                              |  间接寻址
+               |——————————————————————————————| 
+               |          函数的参数3          |  16(%esp)
+               |——————————————————————————————|
+               |          函数的参数2          |  12(%esp)
+               |——————————————————————————————|
+               |          函数的参数1          |  8(%ebp)
+               |——————————————————————————————|
+               |          返回地址             |  4(%ebp)
+               |——————————————————————————————|
+               |          旧的 ebp            |  (%ebp)
+   ESP ————&gt;   |——————————————————————————————|
+               |           局部变量1           |  -4(%ebp)
+               |——————————————————————————————|
+               |           局部变量2           |   -8(%ebp)
+               |——————————————————————————————|
+               |           局部变量3           |   -12(%ebp)
+               |——————————————————————————————|
+</code></pre></td></tr></table>
+</div>
+</div><p>但是如果函数把值压入栈会导致覆盖局部变量的值， 为了解决这个问题在代码的开始添加另外一行， 通过 ESP 寄存器的值减去一个值， 为局部变量流出一定的空间。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">function:
+   pushl %ebp 
+   movl %esp, %ebp 
+   subl $8, %esp 
+   .
+   .
+   .
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="清空堆栈">清空堆栈</h4>
+<p>在函数调用前， 会把函数的参数传入堆栈中， 并在函数返回时删除以及传入的参数。</p>
+<ul>
+<li>我们可以使用 <code>pop</code> 命令删除传入的参数。</li>
+<li>使用 <code>ADD</code> 指令给 ESP 寄存器值加上传入的输入参数的长度。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">pushl %eax 
+pushl %ebx 
+call compute 
+addl $8, %esp
+
+</code></pre></td></tr></table>
+</div>
+</div><p>这样就确保堆栈恢复到应该的状态， 以便主程序其余部分使用。</p>
+<h3 id="使用独立的函数文件">使用独立的函数文件</h3>
+<p>使用函数的好处：</p>
+<ul>
+<li>函数完全是自包含的， 不需要为访问数据而定义全局的内存位置， 所以函数中不需要使用 <code>.data</code> 指令了。</li>
+<li>主程序源文件不需要包含函数源代码， 程序员可以在各自文件中编写函数， 在最后连接到一起， 最后生成最终的产品了。</li>
+</ul>
+<p>创建自包含的函数文件和创建主程序文件类似的，区别是：</p>
+<ul>
+<li>不使用 <code>_start</code> 标签</li>
+<li>把函数标签声明为全局标签， 以便其它程序能够访问它。 这是由 <code>.global</code> 指令完成的。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">.section .text 
+type area, @function 
+.global area 
+
+area:
+   ....
+   ....
+</code></pre></td></tr></table>
+</div>
+</div><p>现在就可以把它编译成目标文件，然后在连接成最后的可执行文件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">as -gstabs -o area.o area.s 
+as -gstabs -o function4.o function.s
+ld -o function4 area.o function4.o 
+</code></pre></td></tr></table>
+</div>
+</div><p>在到达想要调试的函数前， 你可以避免若干次地单步执行长函数， 而是可以选择不调试某个独立的文件。 不必使用 <code>-gstabs</code> 选项汇编全部函数， 而可以把它用于主函数或者你想要调试的函数。</p>
+<h3 id="使用命令行参数">使用命令行参数</h3>
+<p>在执行函数前， 我们或许需要把一些参数传递给参数。 相同地，在执行程序时，我们或许也需要把一些参数传递给程序。</p>
+<p>不同的操作系统使用不同的方法把命令行参数传递给程序。  在理解操作系统是如何把命令行参数传递给程序前， 你需要明白操作系统如何从命令行执行程序：</p>
+<ul>
+<li>
+<p>从 Linux 的 Shell 提示符运行程序时， Linux 系统需要为执行的程序在内存中创建一个区域。 分配给程序的内存区域可以位于物理内存的任何位置。 为了简化这个过程， 操作系统为每个程序分配相同虚拟地址。 虚拟地址由操作系统映射到物理内存地址。</p>
+</li>
+<li>
+<p>在 Linux 中， 分配给程序运行的虚拟内存地址从 <code>0x80480000</code>开始， 到地址 <code>0xbffffffff</code> 结束。 Linux会按照专门的格式把程序存放在虚拟内存地址中。</p>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">            程序虚拟的内存地址 
+|——————————————————————————————————————————| 0xbfffffff
+|                                          |
+|             堆栈数据                      |
+|                                          |
+|——————————————————————————————————————————|
+|                                          |
+|                                          | 
+|                                          |
+|                                          |
+|                                          |
+|                                          |
+|——————————————————————————————————————————|
+|                                          |
+|        程序代码和数据                      |
+|                                          |
+|——————————————————————————————————————————| 0x80480000
+
+
+</code></pre></td></tr></table>
+</div>
+</div><p>在程序启动时， Linux 会把下面4中类型信息存放到程序的堆栈中。</p>
+<ul>
+<li>命令行参数（包括程序的名称）的数目</li>
+<li>从shell 执行的程序名称</li>
+<li>命令行中包含的任何命令行参数</li>
+<li>在程序启动时所有的当前 Linux 环境变量</li>
+</ul>
+<p>程序名称，命令行参数和环境变量都是以空结尾的长度可变的字符串。 为了更加简单linux不仅把字符串加载到堆栈中， 它还把指向每个这些元素指针加载堆栈中。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">
+                                 程序堆栈
+                  |——————————————————————————————————————————————————————|
+                  |                   环境变量                            |
+                  |                   命令行参数                          |
+                  |——————————————————————————————————————————————————————|
+                  |                 指向环境变量的指针                      |
+                  |——————————————————————————————————————————————————————|
+                  |                   0x00000000000000                   |
+                  |——————————————————————————————————————————————————————|
+                  |              指向命令行参数3的指针                      |
+                  |——————————————————————————————————————————————————————|
+                  |              指向命令行参数2的指针                      |
+                  |——————————————————————————————————————————————————————|
+                  |              指向命令行参数1的指针                      |
+                  |——————————————————————————————————————————————————————|
+                  |              指向程序名称指针                           |
+                  |——————————————————————————————————————————————————————|
+ esp ————&gt;        |                参数数量                               |
+                  |——————————————————————————————————————————————————————|
+
+</code></pre></td></tr></table>
+</div>
+</div><p>打印所有的命令行参数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-s" data-lang="s"><span class="c1"># paramerer1.s  -- list command line parameters </span>
+
+<span class="n">.section</span> <span class="n">.data</span> 
+<span class="n">output1</span><span class="o">:</span>
+    <span class="n">.asciz</span> <span class="s">&#34;There are %d parameters\n&#34;</span>
+<span class="n">output2</span><span class="o">:</span>
+    <span class="n">.asciz</span> <span class="s">&#34;%s\n&#34;</span>
+<span class="n">.section</span> <span class="n">.text</span> 
+<span class="n">.global</span> <span class="n">_start</span>
+<span class="n">_start</span><span class="o">:</span>
+    <span class="nf">movl </span><span class="p">(</span><span class="o">%esp), %</span><span class="n">ecx</span>   <span class="c1"># 复制参数数量</span>
+    <span class="n">pushl</span> <span class="o">%ecx        # 传入参数
+</span><span class="o">    pushl $output1    # 传入参数 
+</span><span class="o">    call printf   
+</span><span class="o">    addl $4, %</span><span class="n">esp</span>     <span class="c1"># 清空堆栈</span>
+    <span class="n">popl</span> <span class="o">%ecx 
+</span><span class="o">    movl %</span><span class="n">esp</span><span class="p">,</span> <span class="o">%ebp    
+</span><span class="o">    addl $4, %</span><span class="n">ebp</span> 
+<span class="n">loopl</span><span class="o">:</span>
+    <span class="n">pushl</span> <span class="o">%ecx    # 保存ecx寄存器的值
+</span><span class="o">    pushl (%</span><span class="n">ebp</span><span class="p">)</span>
+    <span class="n">pushl</span> <span class="o">$</span><span class="n">output2</span>
+    <span class="n">call</span> <span class="n">printf</span> 
+    <span class="n">addl</span> <span class="o">$</span><span class="m">8</span><span class="p">,</span><span class="o">%esp   # 清空堆栈
+</span><span class="o">    popl %</span><span class="n">ecx</span>     <span class="c1"># 还原ecx寄存器的值</span>
+    <span class="n">addl</span> <span class="o">$</span><span class="m">4</span><span class="p">,</span> %<span class="n">ebp</span>     <span class="c1"># 指向下一个参数</span>
+    <span class="n">loop</span> <span class="n">loopl</span> 
+    <span class="n">pushl</span> <span class="o">$</span><span class="m">0</span>
+    <span class="n">call</span> <span class="n">exit</span> 
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>程序的名称是命令行参数的第一个参数， 因此任何一个程序其命令行参数个数都不会为0</p>
+</blockquote>
+<p>打印所有的环境变量</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-s" data-lang="s"><span class="c1"># paramerer2.s  -- listing system environment variables </span>
+<span class="n">.section</span> <span class="n">.data</span> 
+<span class="n">output</span><span class="o">:</span>
+    <span class="n">.asciz</span> <span class="s">&#34;%s\n&#34;</span>
+<span class="n">.section</span> <span class="n">.text</span> 
+<span class="n">.global</span> <span class="n">_start</span>
+<span class="n">_start</span><span class="o">:</span>
+    <span class="n">movl</span> <span class="o">%esp, %</span><span class="n">ebp</span>   
+    <span class="n">addl</span> <span class="o">$</span><span class="m">12</span><span class="p">,</span> <span class="o">%ebp   # 指向第一个环境变量
+</span><span class="o">loop1:
+</span><span class="o">    cmpl $0, (%</span><span class="n">ebp</span><span class="p">)</span>
+    <span class="n">je</span> <span class="n">endit</span> 
+    <span class="nf">pushl </span><span class="p">(</span><span class="o">%ebp)
+</span><span class="o">    pushl $output
+</span><span class="o">    call printf 
+</span><span class="o">    addl $12,%</span><span class="n">esp</span>   <span class="c1"># 清空栈 4 + 8 </span>
+    <span class="n">addl</span> <span class="o">$</span><span class="m">4</span><span class="p">,</span>%<span class="n">ebp</span>    <span class="c1"># 指向下一个环境变量</span>
+    <span class="n">loop</span> <span class="n">loop1</span>
+<span class="n">endit</span><span class="o">:</span>
+    <span class="n">pushl</span> <span class="o">$</span><span class="m">0</span> 
+    <span class="n">call</span> <span class="n">exit</span> 
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="第12章-使用-linux-系统调用">第12章 使用 Linux 系统调用</h2>
+<p>linux 操作系统本身为应用程序提供了很多可以调用的函数， 以便没容易的访问文件， 确定用户组权限，访问网络资源以及获得和显示数据。 这些函数统称为系统调用。</p>
+<h3 id="linux-内核">linux 内核</h3>
+<p>linux 操作系统核心是内核， 在讨论系统调用前， 了解提供系统调用的操作系统幕后进行了什么操作是很有帮助的。</p>
+<p>内核系统软件是操作系统的核心。 它控制系统的硬件和软件， 在必要时分配硬件， 并且在需要时执行软件。  内核主要有4个责任：</p>
+<ul>
+<li>内存管理</li>
+<li>设备管理</li>
+<li>文件系统管理</li>
+<li>进程管理</li>
+</ul>
+<ol>
+<li>内存管理</li>
+</ol>
+<p>内核管理服务器上的物理内存， 也管理这磁盘上虚拟内存， 也就是交换空间。</p>
+<p>内存位置被分组为页面（page）的块。 每个内存位置要么位于物理内存中， 要么位于交换空间中。 内核必须维护一个表名哪些页面在哪些位置的内存页面表。</p>
+<p>内核会自动把一段时间内没有访问的内存页面复制到硬盘上的交换空间区域， 当程序要访问已经被“交换出”的页面时， 内核必须交换出其其他的内存页面并从交换空间换入所需的页面。</p>
+<p>你可以通过 <code>cat /proc/meminfo</code> 来查看当前的虚拟内存信息。</p>
+<ol start="2">
+<li>设备管理</li>
+</ol>
+<p>任何需要与linux 系统进行通信的设备都需要插入到内核代码中的驱动代码。 驱动代码使内核可以在通用通用接口到设备之间来回的传递数据。  有两种方式可以把设备的驱动代码插入到 Linux 内核中。</p>
+<ul>
+<li>把驱动编译到内核中</li>
+<li>把驱动代码插入到正在运行的内核中。</li>
+</ul>
+<p>把驱动代码插入到正在运行的内核中的技术被称为内核模块。它运行动态的添加驱动代码到内核中。</p>
+<p>在Unix服务器上， 硬件设备都被标识为特殊的设备文件（也是一种文件）。有三种不同的类别设备文件：</p>
+<ul>
+<li>字符设备， 每次只处理一个字符的设备。</li>
+<li>块设备，每次处理一大块数据的设备。</li>
+<li>网络设备， 表示用包发送和接收数据的设备。</li>
+</ul>
+<ol start="3">
+<li>文件系统管理</li>
+</ol>
+<p>Linux 系统支持不同类型的文件系统，对硬盘驱动器读取和写入。 内核使用虚拟的文件系统（Virtual File System, VFS）和各个文件系统进行交互。 这为内核系统与任何类型的文件系统的通信提供了<strong>通用的接口</strong>。 在挂载和使用每种文件系统的时候， VFS 会把信息缓存在内存中。</p>
+<ol start="4">
+<li>进程管理</li>
+</ol>
+<p>linux 内核会把程序当作进程进行管理。 内核创建第一个进程（init 进程）启动系统上所有的其它进程。  内核启动时， init 进程被加载到虚拟内存中。 每个进程启动时， 会为它分配虚拟的内存区域， 用于存储数据和系统将要执行的代码。</p>
+<p>linux 系统采用运行级别来告诉 init 来启动哪些进程。</p>
+<h3 id="系统调用">系统调用</h3>
+<p>linux 系统会在下面的文件中包含内核中每个可用的系统调用的定义。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">/usr/include/asm/unistd_32.h 
+
+#ifndef _ASM_X86_UNISTD_32_H
+#define _ASM_X86_UNISTD_32_H 1
+
+#define __NR_restart_syscall 0
+#define __NR_exit 1
+#define __NR_fork 2
+</code></pre></td></tr></table>
+</div>
+</div><p>为了调用系统调用， 你需要使用 <code>INT</code> 指令， 其位于 <code>0x80</code> 中断。 在执行 <code>INT</code> 指令时， 所有的操作都会转移到内核中的系统调用处理程序。 系统调用完成式， 会执行转移回INT指令之后的下一条指令（当然，除非执行了 exit 系统调用）</p>
+<p>在调用系统调用通常会按照下面的步骤：</p>
+<ol>
+<li>输入系统调用值</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-s" data-lang="s"><span class="n">movl</span> <span class="o">$</span><span class="m">0</span><span class="p">,</span> %<span class="n">eax</span> 
+<span class="n">int</span> <span class="o">$</span><span class="mh">0x80</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>系统调用输入值</li>
+</ol>
+<p>C 样式的函数需要把函数的参数放入堆栈中， 但是系统调用需要将输入值存放到寄存器中。  下面是寄存器和输入参数的顺序。</p>
+<ul>
+<li>EBX (第 1 个参数)</li>
+<li>ECX (第 2 个参数)</li>
+<li>EDX (第 3 个参数)</li>
+<li>ESI (第 4 个参数)</li>
+<li>EDI (第 5 个参数)</li>
+</ul>
+<ol start="3">
+<li>系统调用返回值</li>
+</ol>
+<p>系统调用的返回值通常都会存放在 <code>EAX</code> 寄存器中。  并且在在 <code>INT</code> 指令被执行完后， 可以把返回值，移动到合适的地方。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-s" data-lang="s">    <span class="n">movl</span> <span class="o">$</span><span class="m">47</span><span class="p">,</span> <span class="o">%eax 
+</span><span class="o">    int $0x80 
+</span><span class="o">    movl %</span><span class="n">eax</span><span class="p">,</span> <span class="n">gid</span> 
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="跟踪系统调用">跟踪系统调用</h3>
+<p>strace 程序能够截取程序发出的系统调用并显示他们以供查看。 被跟踪的程序可以是从 strace 命令运行的， 也可以是系统上已经运行的进程。</p>
+<h3 id="系统调用-c-库函数">系统调用 C 库函数</h3>
+<p>C库函数提供访问内核特性的中间访问。 C 库函数是标准函数可以在不同的系统上使用它们提供对功能标准访问。</p>
+<h2 id="使用内联汇编">使用内联汇编</h2>
+<p>什么是内联汇编？</p>
+<p>即把汇编语言函数直接放到 C 或者 C++ 语言程序内， 这种技术叫做内联汇编。</p>
+<p>在 <code>GNU</code>中的 c 编译器使用 <code>asm</code> 关键字指出使用汇编语言编写的源代码段落。 asm 基本的格式如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">asm<span class="o">(</span><span class="s2">&#34;assembly code&#34;</span><span class="o">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>其内包含的汇编代码， 必须有如下格式：</p>
+<ul>
+<li>指令必须包含在引号里</li>
+<li>如果包含多条汇编指令， 每条指令必须用换行符号分割开。</li>
+</ul>
+<p>在编译成汇编代码时， 内联汇编代码会包含在由 <code>#APP</code> 和 <code>#NO_APP</code> 包含的段落里面。</p>
+<p>在使用内联汇编仅可以使用 C 程序中定义的全局 <code>C</code> 变量， 你可以通过变量的名称引用。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">10</span> 
+<span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">10</span> 
+<span class="kt">int</span> <span class="n">result</span> 
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(){</span>
+   <span class="p">...</span> 
+
+   <span class="k">asm</span><span class="p">(</span><span class="s">&#34;pusha</span><span class="se">\n\t</span>
+     <span class="n">movl</span> <span class="n">a</span><span class="p">,</span> <span class="o">%</span><span class="n">eax</span><span class="err">\</span><span class="n">n</span><span class="err">\</span><span class="n">t</span>
+     <span class="n">movl</span> <span class="n">b</span><span class="p">,</span> <span class="o">%</span><span class="n">ebx</span><span class="err">\</span><span class="n">n</span><span class="err">\</span><span class="n">t</span>
+     <span class="n">imull</span> <span class="o">%</span><span class="n">ebx</span><span class="p">,</span> <span class="o">%</span><span class="n">eax</span><span class="err">\</span><span class="n">n</span><span class="err">\</span><span class="n">t</span>
+     <span class="n">movl</span> <span class="o">%</span><span class="n">eax</span><span class="p">,</span> <span class="n">result</span><span class="err">\</span><span class="n">n</span><span class="err">\</span><span class="n">t</span>
+     <span class="n">popa</span><span class="s">&#34;)</span>
+
+   <span class="p">...</span> 
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>有些时候编译器会优化你的内联汇编代码， 如果你不想它优化， 可以采用 <code>volatile</code> 关键字。  去告诉汇编器不要优化该段代码。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">asm</span> <span class="k">volatile</span><span class="p">(</span><span class="s">&#34;assemble code&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>有些时候 C 语言把 <code>asm</code> 关键字有其它的特别的用处， 你可以使用其对应有相同意义的关键字.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">asm        __asm__
+volatile  __volatile__ 
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="第14章-调用汇编库">第14章 调用汇编库</h2>
+<p>我们可以采用 内联汇编直接把汇编代码整合到 c 和 c++ 代码中， 当然 C/C++ 也能直接的调用 汇编函数。</p>
+<p>如果在 C 语言中要调用汇编函数， 那么汇编函数必须显式的遵循C样式的格式， 所有的输的输入变量都从堆栈中获取， 并从 EAX 寄存器中获取值。</p>
+<p>EBP 寄存器用来访问堆栈的值的基值</p>
+<h2 id="第15章-使用文件">第15章 使用文件</h2>
+<p>文件用于程序存储数据以便以后使用， 或者从配置文件读取配置信息。 在汇编语言程序中有两种方式访问文件：</p>
+<ul>
+<li>使用标准的C函数</li>
+<li>直接使用内核提供的系统调用</li>
+</ul>
+<p>下面是文件系统调用对应的 linux 系统调用值：</p>
+<table>
+<thead>
+<tr>
+<th>系统调用</th>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>打开</td>
+<td>5</td>
+<td>打开要访问的文件并且创建指向文件的文件句柄</td>
+</tr>
+<tr>
+<td>读取</td>
+<td>3</td>
+<td>使用文件句柄读取打开的文件</td>
+</tr>
+<tr>
+<td>写入</td>
+<td>4</td>
+<td>使用文件句柄写入文件</td>
+</tr>
+<tr>
+<td>关闭</td>
+<td>6</td>
+<td>关闭文件并删除文件句柄</td>
+</tr>
+</tbody>
+</table>
+<p>每个文件系统相关的系统的调用都有自己的一组输入值， 在发出系统调用前必须进行配置。</p>
+<h3 id="打开和关闭文件">打开和关闭文件</h3>
+<p>在 C 函数使用 <code>open</code> 函数打开一个文件， 并在使用后使用 <code>close</code> 函数关闭文件。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">int open(const char *pathname, int flags, mode_t mode)
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>pathname 表示打开的文件的路径。 如果使用文件名， 就表示打开文件和运行程序在相同的目录中。</li>
+<li>falgs 用于指定文件的访问类型。</li>
+<li>mode_t 用于在创建文件时， 对文件 Unix 权限设置</li>
+</ul>
+<p>在打开文件时必须指定文件访问类型。 文件访问类型都是由一些常量表示， 这些常量的字面值通常采用八进制表示：</p>
+<table>
+<thead>
+<tr>
+<th>C 常量</th>
+<th>数字值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>O_RDONLY</td>
+<td>00</td>
+<td>打开文件， 用于只读访问</td>
+</tr>
+<tr>
+<td>O_WRONLY</td>
+<td>01</td>
+<td>打开文件， 用于只写访问</td>
+</tr>
+<tr>
+<td>O_RDWR</td>
+<td>02</td>
+<td>打开文件， 用于读写访问</td>
+</tr>
+<tr>
+<td>O_CREAT</td>
+<td>0100</td>
+<td>如果文件不存在， 则创建文件</td>
+</tr>
+<tr>
+<td>O_EXCL</td>
+<td>0200</td>
+<td>和O_CREAT一起使用， 如果文件存在，则不打开它</td>
+</tr>
+<tr>
+<td>O_TRUNC</td>
+<td>01000</td>
+<td>如果文件存在并且按照写的模式打开，则把文件的长度截断为0</td>
+</tr>
+<tr>
+<td>O_APPEND</td>
+<td>02000</td>
+<td>把数据追加到文件的结尾</td>
+</tr>
+<tr>
+<td>O_NONBLOCK</td>
+<td>04000</td>
+<td>非块的模式打开文件</td>
+</tr>
+<tr>
+<td>O_SYNC</td>
+<td>010000</td>
+<td>按照同步的模式打开文件（同时只允许一个写入操作）</td>
+</tr>
+<tr>
+<td>O_ASYNC</td>
+<td>020000</td>
+<td>按照异步的模式打开文件（同时允许多个写入操作）</td>
+</tr>
+</tbody>
+</table>
+<p>在打开文件时， 当文件不存在的时候， 需要设置适当的 Unix 权限。 标准的Unix 权限可以对3中类别的用户进行设置：</p>
+<ul>
+<li>文件的所有者</li>
+<li>文件的默认值</li>
+<li>系统上的其它用户</li>
+</ul>
+<p>可以为上面的3类用户分配文件的权限。 使用 3 位表示表示文件相关的权限。</p>
+<table>
+<thead>
+<tr>
+<th>权限位</th>
+<th>值</th>
+<th>访问类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>001</td>
+<td>1</td>
+<td>执行权限</td>
+</tr>
+<tr>
+<td>010</td>
+<td>2</td>
+<td>写入权限</td>
+</tr>
+<tr>
+<td>100</td>
+<td>4</td>
+<td>读取权限</td>
+</tr>
+</tbody>
+</table>
+<p>并且上面的权限还可以采用组合起来分配给某一类用户。 可以用一个3位的八进制数，来表示所有者，组和其它用户的权限。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">0644  表示文件拥有者有写入和读取权限， 文件的默认群组和其他用户仅有读取权限。 
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>在用户登录服务器时， 会为每个用户分配一个 <code>umask</code> 值。<code>umask</code> 值会把默认的权限分配给用户创建的权限，
+<code>file prevs = prevs &amp; ~umask</code>
+umask 没有修改所有者的请求权限， 但是通过 umask 值拒绝了为组和其他所有用户请求的写入权限。</p>
+</blockquote>
+<h3 id="读取文件">读取文件</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ssize_t read(int fd, void *buf, size_t count)
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>fd  表示读取文件的句柄</li>
+<li>buf 表示存放读出数据的缓冲区位置</li>
+<li>count 表示试图从文件中读取的字节数量</li>
+</ul>
+<p>返回值表示系统调用从文件实际读出的字节数量。 如果返回值小于 0， 表示读取遇到错误， 等于0， 则表示已经读取到文件末尾。</p>
+<h3 id="内存映射文件">内存映射文件</h3>
+<p>内存映射文件使用系统调用 <code>mmap</code> 把部分文件映射到系统内存中。 当文件（或者部分文件）被映射到系统的内存中之后， 程序可以使用标准的内存访问指令访问内存位置， 如果必须的话， 可以修改他们。  可以在多个进程之间共享内存位置， 这使得多个程序可以同时更新同一个文件。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">void *mmap(void *start, size_t length, int prot, int flags,  int fd,  off_t ffset)
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>start 表在内存中什么位置开始映射文件</li>
+<li>length 表示加载到内存的字节数量</li>
+<li>prot 表示内存保护设置</li>
+<li>flags 表示要创建的映射对象类型</li>
+<li>fd 要映射到内存的文件的文件句柄</li>
+<li>offset 表示文件中要复制到内存数据的起点</li>
+</ul>
+<blockquote>
+<p>start 可以设置为0， 这使得操作系统可以在内存中的什么位置存放内存映射文件。
+如果 offset 设置为0， length 设置为文件的长度， 表示把整个文件映射到内存中。
+如果 length 不能填充整个页面， 那么剩余的页面用 0 填充
+如果使用 offset， 那么它必须是系统页面的倍数</p>
+</blockquote>
+<p>prot 表示对内存映射文件允许的访问权限设置</p>
+<table>
+<thead>
+<tr>
+<th>保护名称</th>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PROT_NONE</td>
+<td>0</td>
+<td>不允许数据访问</td>
+</tr>
+<tr>
+<td>PROT_READ</td>
+<td>1</td>
+<td>允许读取访问</td>
+</tr>
+<tr>
+<td>PROT_WRITE</td>
+<td>2</td>
+<td>允许写入访问</td>
+</tr>
+<tr>
+<td>PROR_EXEC</td>
+<td>4</td>
+<td>允许执行访问</td>
+</tr>
+</tbody>
+</table>
+<p>flag 表示操作系统如果控制内存映射文件， 常见有下面两种：</p>
+<table>
+<thead>
+<tr>
+<th>标志名称</th>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MAP_SHARE</td>
+<td>1</td>
+<td>和其他进程共享内存映射文件的改动</td>
+</tr>
+<tr>
+<td>MAP_PRIVATE</td>
+<td>2</td>
+<td>保持所有的改动对这个文件是私有的</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>MAP_SHARE 指示操作系统把内存映射文件的任何改动都写入文件中
+MAP_PRIVARTE 会忽略对内存映射文件的任何改动</p>
+</blockquote>
+<p>对内存文件做出改动时， 并没有同时把改动写入原始的文件。 你可以调用下面的系统调用确保把内存映射写入到文件中。</p>
+<ul>
+<li>mysnc： 对原始文件和内存映射文件进行同步</li>
+<li>munmap：在内存中删除内存映射文件并且把所的改动写入原始文件。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">int msync(const void *start, size_t length, int flags);
+int munmap(void *start, size_t length)
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>start 表示内存映射文件在内存中的起始位置。</li>
+<li>length 表示要写入原始文件的字节数量。</li>
+</ul>
+<p>ms 的 flag 可以定义如何更新原始文件：</p>
+<ul>
+<li>MS_ASYNC 在下次可以写入文件时安排更新，并且系统调用返回。</li>
+<li>MS_SYNC 系统调用等待， 直到做出更新，然后返回调用程序。</li>
+</ul>
+<blockquote>
+<p>注：<strong>内存映射文件不能改变原始文件的大小</strong></p>
+</blockquote>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">mkfoyw</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2021-07-21
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/book/">book</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/linux/makefile-basic/">
+            <span class="next-text nav-default">Makefile Basic</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="http://localhost:1313" class="iconfont icon-facebook" title="facebook"></a>
+      <a href="http://localhost:1313" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="http://localhost:1313" class="iconfont icon-google" title="google"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-pocket" title="pocket"></a>
+      <a href="http://localhost:1313" class="iconfont icon-tumblr" title="tumblr"></a>
+      <a href="http://localhost:1313" class="iconfont icon-instagram" title="instagram"></a>
+      <a href="http://localhost:1313" class="iconfont icon-gitlab" title="gitlab"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://localhost:1313/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>mkfoyw</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

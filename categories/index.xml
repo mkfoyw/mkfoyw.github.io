@@ -5,6 +5,25 @@
     <link>http://localhost:1313/categories/</link>
     <description>Recent content in Categories on Even - A super concise theme for Hugo</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language><atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Tue, 13 Jul 2021 15:30:26 +0800</lastBuildDate><atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>linux</title>
+      <link>http://localhost:1313/categories/linux/</link>
+      <pubDate>Tue, 13 Jul 2021 15:30:26 +0800</pubDate>
+      
+      <guid>http://localhost:1313/categories/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>filecoin</title>
+      <link>http://localhost:1313/categories/filecoin/</link>
+      <pubDate>Mon, 12 Jul 2021 15:25:31 +0800</pubDate>
+      
+      <guid>http://localhost:1313/categories/filecoin/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
