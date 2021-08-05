@@ -49,7 +49,7 @@
 <meta itemprop="name" content="Linux内核设计与实现">
 <meta itemprop="description" content="第三章 进程管理 进程 是 Unix 操作系统抽象概念的最基本的一种。 进程是正在执行的程序代码的实时结果， 其不仅包含程序代码， 还包含其他的资源， 比如打开的文"><meta itemprop="datePublished" content="2021-07-21T14:19:07&#43;08:00" />
 <meta itemprop="dateModified" content="2021-07-21T14:19:07&#43;08:00" />
-<meta itemprop="wordCount" content="4763">
+<meta itemprop="wordCount" content="10758">
 <meta itemprop="keywords" content="book," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux内核设计与实现"/>
 <meta name="twitter:description" content="第三章 进程管理 进程 是 Unix 操作系统抽象概念的最基本的一种。 进程是正在执行的程序代码的实时结果， 其不仅包含程序代码， 还包含其他的资源， 比如打开的文"/>
@@ -157,13 +157,42 @@
             <li><a href="#linux-调度程序">Linux 调度程序</a></li>
             <li><a href="#策略">策略</a></li>
             <li><a href="#linux-调度算法">Linux 调度算法</a></li>
+            <li><a href="#linux-调度的实现">Linux 调度的实现</a></li>
+            <li><a href="#抢占和上下文切换">抢占和上下文切换</a></li>
+            <li><a href="#实时调度策略">实时调度策略</a></li>
+            <li><a href="#与调度相关的系统调用">与调度相关的系统调用</a></li>
           </ul>
         </li>
+        <li><a href="#第-5-章-系统调用">第 5 章 系统调用</a>
+          <ul>
+            <li></li>
+          </ul>
+        </li>
+        <li><a href="#第-7-章-中断和中断处理">第 7 章 中断和中断处理</a>
+          <ul>
+            <li><a href="#中断">中断</a></li>
+            <li><a href="#中断处理程序">中断处理程序</a></li>
+            <li><a href="#上半部和下半部对比">上半部和下半部对比</a></li>
+            <li><a href="#注册中断处理程序">注册中断处理程序</a></li>
+            <li><a href="#中断上下文">中断上下文</a></li>
+          </ul>
+        </li>
+        <li><a href="#下半部和推后执行的工作">下半部和推后执行的工作</a></li>
+        <li><a href="#第9章-内核同步介绍">第9章 内核同步介绍</a>
+          <ul>
+            <li><a href="#临界区和竞争条件">临界区和竞争条件</a></li>
+            <li><a href="#加锁">加锁</a></li>
+            <li><a href="#死锁">死锁</a></li>
+            <li><a href="#争用和扩展性">争用和扩展性</a></li>
+          </ul>
+        </li>
+        <li><a href="#第-10-章内核同步的方法">第 10 章内核同步的方法</a></li>
         <li><a href="#第-11-章-定时器和时间管理">第 11 章 定时器和时间管理</a>
           <ul>
             <li><a href="#内核中时间的概念">内核中时间的概念</a></li>
             <li><a href="#节拍率">节拍率</a></li>
             <li><a href="#jiffies">jiffies</a></li>
+            <li><a href="#硬时钟和定时器">硬时钟和定时器</a></li>
           </ul>
         </li>
       </ul>
@@ -395,6 +424,327 @@
 <p>完全公平调度（CFS）是一个针对普通进程的调度器类， 在linux 中被称为<code>SCHED_NORMAL</code>， 并在 <code>kernel/sched_fair.c</code> 中定义。</p>
 <p><strong>公平调度</strong></p>
 <p>CFS 出发点基于这样一个理念：每个进程都能够获得 <code>1/n</code> 的处理器时间——n 是进程的数量， 并且可以调度给他们无限小的时间周期， 所以在可测量周期内， 每个进程都运行相同的时间。</p>
+<h3 id="linux-调度的实现">Linux 调度的实现</h3>
+<p>linux 的调度相关代码位于 <code>kernel/sched_fair.c</code> 中 。</p>
+<h4 id="时间记账">时间记账</h4>
+<p>所有的调度器都必须对进程的运行时间做记账。 大多数 Unix 的系统， 分配一个时间片给每一个进程， 那么当每次系统节拍发生时，时间片都会减少一个节拍周期。 当一个进程的时间片被减少到0时， 该进程会被其他未减少到0的进程抢占。</p>
+<p><strong>CFS调度器的结构</strong></p>
+<p><code>CFS</code> 调度器的实体结构位于<code>linux/sched.h</code> 的 <a href="https://github.com/torvalds/linux/blob/master/include/linux/sched.h#L465">struct_sched_entity</a>  中来追踪进程的时间记账。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">struct sched_entity {
+	/* For load-balancing: */
+	struct load_weight		load;
+	struct rb_node			run_node;
+	struct list_head		group_node;
+	unsigned int			on_rq;
+
+	u64				exec_start;
+	u64				sum_exec_runtime;
+	u64				vruntime;
+	u64				prev_sum_exec_runtime;
+
+	u64				nr_migrations;
+
+	struct sched_statistics		statistics;
+</code></pre></td></tr></table>
+</div>
+</div><p>调度器实体结构作为一个<code>se</code> 的成员变量，嵌入到进程描述符中。</p>
+<p><strong>虚拟实时</strong></p>
+<p><code>vruntime</code> 变量存放进程的虚拟运行时间，该运行的时间（花在运行时间上的和）的计算是经过了所有可运行进程总数的标准化（或者说是加权相加的）。</p>
+<p>CFS 采用 <code>vruntime</code> 来记录一个进程到底运行了多长时间以及还应该运行多长时间。</p>
+<h4 id="进程选择">进程选择</h4>
+<p>在完美多任务处理器中，每个进程 vruntime 都一致。 而存在 CFS 中也力求进程的使用处理器的时间比公平。 在CFS 中vruntime 是对进程运行的时间进行了加权相加的， 也力求均衡进程的虚拟运行时间。   CFS 调度核心：当 CFS 会选择下一个运行的进程时，会挑选具有最小 vruntime 的进程运行。</p>
+<p>CFS 采用红黑树来组织可运行进程队列，并利用其迅速找到最小 runtime 值的进程。 在 linux 中， 红黑树称为 rbtree，它是一个自平衡二叉搜索树。</p>
+<blockquote>
+<p>红黑树是一种以树节点的形式存储这些数据，这些数据对应一个键值， 我们通过这些键值来快速的检索节点上的数据。（最重要的是通过键值检索到对应的即诶单的速度和节点的规模成指数比关系）。</p>
+</blockquote>
+<h4 id="调度器入口">调度器入口</h4>
+<p>在 linux 中进程调度中， 是按照模块的形式提供的。 每一个调度器算法都对应着一个调度器类， 负责进程的调度。  有一个最基本的调度器算法， 它会按照优先级， 依次遍历所有的调度器类， 并且从优先级最高的调度器类中， 选择最高优先级的进程。</p>
+<p>进程的调度的入口函数是 schedule()， 它定义在 <a href="">(kernel/sched.c)</a> 中。</p>
+<h4 id="睡眠和唤醒">睡眠和唤醒</h4>
+<p>休眠（被阻塞）的进程处于一个特殊的不可以执行状态。 进程的休眠原因有很多种， 但肯定都是为了等待一些事件。</p>
+<p>让一个进程变成休眠状态， 内核的操作都是相同：进程把自己标记成休眠状态， 从可执行红黑树中移除，让入等待队列， 然后调用schedule() 选择和执行下一个进程。</p>
+<p>唤醒过程正好相反：进程被设置成可执行状态，然后再从等待队列中移到可执行队列中。</p>
+<p>与休眠相关的状态有两种：<code>TASK_INTERUPTABLE</code> 和 <code>TASK_UNINTERUPTABLE</code>。 它们唯一的区别是处于 <code>TASK_UNINTERUPTABLE</code> 状态的进程会忽略信号，<code>TASK_INTERUPTABLE</code> 状态的进程如果接收到一个信号，会被提前唤醒并响应该信号。 两种状态进程位于同一等待队列中上， 等待某些事件， 不能够运行。</p>
+<p><strong>等待队列</strong></p>
+<p>休眠通过等待队列进行处理。 等待队列是由等待某些时间发生的进程组成的简单链表。</p>
+<p><strong>唤醒</strong></p>
+<p>唤醒操作通过 <code>wake_up()</code> 进行，它会唤醒指定队列所有上的所有进程。</p>
+<h3 id="抢占和上下文切换">抢占和上下文切换</h3>
+<p>上下文切换， 也就是从一个可执行进程切换到另外的一个可执行进程。 由定义在 <code>kernel/sched.c</code> 中 <code>context_switch()</code> 函数负责处理。</p>
+<p>当一个新的进程准备投入运行时， <code>schedule()</code>就会调用该函数，它基本完成两项基本工作：</p>
+<ul>
+<li>调用<code>asm/mmu_context.h</code>中的 <code>switch_mm</code> , 该函数负责把虚拟内存从上一个进程切换到新的进程中。</li>
+<li>调用声明在<code>asm/system.h</code>中的<code>switch_to()</code>, 该函数负责从上一个进程的处理器状态切换到状态。  这包括保存，恢复栈信息和寄存器信息，还有其他与体系结构有关的状态信息， 都必须一个每个进程为对象进行管理和保存。</li>
+</ul>
+<p>每个进程都有一个 <code>need_resched</code> 标志， 有其他的进程应当被运行， 要尽快被调度。 以前是设置为全局变量， 在 <code>2.2-2.4</code> 在 <code>task_struct</code> 结构体中， 后面被移到<code>thread_info</code> 中。 带内核检查到 <code>need_resched</code> 被设置了， 内核将会尽快调用 <code>schedule()</code> 函数。</p>
+<blockquote>
+<p>访问进程标志符的变量比访问全局变量快(因为current宏的速度很快并且描述符通常存在于高速缓存中)</p>
+</blockquote>
+<p>用于访问和操作<code>need_resched</code> 标志的函数</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>set_tsk_need_resched()</td>
+<td>设置指定进程的 <code>need_resched</code> 标志</td>
+</tr>
+<tr>
+<td>clear_tsk_need_resched()</td>
+<td>清空指定进程的 <code>need_resched</code> 标志</td>
+</tr>
+<tr>
+<td>need_resched()</td>
+<td>检查 <code>need_resched</code> 标志的值， 如果被设置就返回真，否则返回false</td>
+</tr>
+</tbody>
+</table>
+<h4 id="用户抢占">用户抢占</h4>
+<p>在内核执行完毕， 即将返回用户空间的时候， 如果 <code>need_resched</code> 被设置， 会导致 <code>schedule()</code> 被调用，此时会发生用户抢占。  因此下面的情况会发生用户抢占：</p>
+<ul>
+<li>从系统调用返回用户空间的时候。</li>
+<li>从中断处理程序返回用户空间的时候。</li>
+</ul>
+<h4 id="内核抢占">内核抢占</h4>
+<p>在不支持内核抢占的程序中，内核各个任务之间以协作的方式调度的，不具备抢占性。 内核代码要一直执行完成（返回用户空间）或明显阻塞为止。</p>
+<p>Linux 内核支持内核抢占的。 只要进程没有持有锁，就支持内核抢占。  锁是抢占区域的标志。</p>
+<p>linux 为每个进程的 <code>thread_info</code> 引入 <code>preempt_count</code>计数器。 该计数器的初始值为0，每当锁使用的时候数值加1， 锁释放的时候数值减1。 当数值为0的时候内核就可以抢占。</p>
+<p>从中断返回内核空间的时候，如果 <code>need_resched</code> 被设置且 <code>preempt_count</code> 为0， 表示有任务需要执行并且可以安全的抢占，此时调度程序会被调用。</p>
+<p>当然在内核中的进程被阻塞了， 或者它显示的调用 <code>schedlue()</code> 内核抢占都会显示的发生。</p>
+<p>因此内核的抢占会发生在：</p>
+<ul>
+<li>中断处理程序正在执行，返回内核空间以前。</li>
+<li>内核代码在一次可具备抢占性的时候。</li>
+<li>如果内核中的任务显示的调用 <code>schedule()</code></li>
+<li>如果内核中的任务阻塞（这样会导致调用 schedule（））</li>
+</ul>
+<h3 id="实时调度策略">实时调度策略</h3>
+<p>Linux 提供两种实时调度策略：SCHED_INFO 和 SCHED_RR. 和普通的，非实时的调度策略是 SCHED_INFO。</p>
+<ul>
+<li>SCHED_FIFO 是一种简单的，先入先出的调度算法：它不使用时间片。 一旦一个 SCHED_FIFO 级的进程会处于可运行状态， 就会一直执行，直到自己受阻塞或者显示的释放处理器为止；。</li>
+<li>SCHED_RR 类似 SCHED_FIFO ， 只是处于 SCHED_RR级别的进程会分配时间片， 并在时间片耗尽时将不能继续执行。</li>
+</ul>
+<p>这两种算法都是静态优先级。</p>
+<h3 id="与调度相关的系统调用">与调度相关的系统调用</h3>
+<p>Linux 提供了一个系统调用族，用于管理调度程序相关的参数。</p>
+<table>
+<thead>
+<tr>
+<th>系统调用</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>nice()</td>
+<td>设置进程的nice 值</td>
+</tr>
+<tr>
+<td>sched_setscheduler()</td>
+<td>设置进程的调度策略</td>
+</tr>
+<tr>
+<td>sched_getscheduler()</td>
+<td>得到进程的调度策略</td>
+</tr>
+<tr>
+<td>sched_setparam()</td>
+<td>设置进程的实时优先级</td>
+</tr>
+<tr>
+<td>sched_getparam()</td>
+<td>得到进程的实时优先级</td>
+</tr>
+<tr>
+<td>sched_get_priority_max()</td>
+<td>获取实时优先级的最大值</td>
+</tr>
+<tr>
+<td>sched_get_priority_min()</td>
+<td>获取实时优先级的最小值</td>
+</tr>
+<tr>
+<td>sched_rr_get_interval()</td>
+<td>获取进程的时间片值</td>
+</tr>
+<tr>
+<td>sched_setaffinity()</td>
+<td>设置进程的处理器的亲和能力</td>
+</tr>
+<tr>
+<td>sched_getaffinity()</td>
+<td>得到进程的处理器亲和能力</td>
+</tr>
+<tr>
+<td>sched_yeild()</td>
+<td>暂时的让出处理器</td>
+</tr>
+</tbody>
+</table>
+<h4 id="与调度策略和优先级相关的系统调用">与调度策略和优先级相关的系统调用</h4>
+<p><code>sched_setscheduler</code>和 <code>sched_setscheduler</code> 用于设置和获取进程的调度策略和实时优先级，他们实现包含许多的参数检查、初始化工作和清理构成的。 其重要的工作在于读取和改写 <code>task_struct</code>的 <code>policy</code> 和 <code>rt_policy</code> 的值。</p>
+<p><code>sched_setparam</code> 和 <code>sched_setparam</code> 用户设置和获取进程的实时优先级。 这两个系统调用用于设置 <code>sched_param</code> 特殊的 `rt_priority.</p>
+<p><code>nice</code> 函数用于给进程的静态优先级添加一个值， 其会设置 <code>task_struct</code> 的 <code>static_prio</code> 值。</p>
+<h4 id="与调度器绑定相关的系统调用">与调度器绑定相关的系统调用</h4>
+<p>Linx 调度程序提供强制的处理器绑定(processor affilinity)机制， 强制指定进程在一些处理器上运行。</p>
+<p><code>struct_task</code> 的 <code>cpu_allowed</code> 的掩码标志的每一位对应着一个系统可用的处理器。 默认情况下， 所有的位被设置， 进程可以在所有的处理器上执行。 用户可以使用 <code>sched_setaffinity</code> 设置不同的一个或几位组合的位掩码。<code>sched_getaffinity</code> 返回当前的位掩码。</p>
+<p>内核提供的强制处理器绑定就是设置的 <code>cpu_allowed</code> 并且父进程也会继承子进程的相关的掩码。</p>
+<h4 id="放弃处理器时间">放弃处理器时间</h4>
+<p><code>sched_yeild()</code> 会显示的将处理器时间让给其他正在执行进程的机制。</p>
+<h2 id="第-5-章-系统调用">第 5 章 系统调用</h2>
+<p>内核提供一组让用户进程和内核通信的接口， 也就是系统调用。  这些接口有：</p>
+<ul>
+<li>用户程序有限制的访问硬件资源。</li>
+<li>提供了创建进程并与已有进程进行通信的功能。</li>
+<li>提供了申请操作系统其他资源的能力。</li>
+</ul>
+<h4 id="与内核通信">与内核通信</h4>
+<p>系统调用作用：</p>
+<ul>
+<li>为用户空间提供一组抽象的接口。</li>
+<li>保证系统的安全和稳定。</li>
+<li>为用户空间和系统其余部分提供了公共的接口。</li>
+</ul>
+<h2 id="第-7-章-中断和中断处理">第 7 章 中断和中断处理</h2>
+<p>操作系统一个核心任务就是管理连接到计算机的的设备。 而总所周知外围设备的速度很慢。 通常内核处理器向外围设备发一个请求，在等待硬件设备响应的时候， 内核可以处理其他的任务，等硬件设备真正完成的请求，在对请求进行处理。</p>
+<p>有两种方式让处理器和外围设备进行高效的工作：</p>
+<ul>
+<li>一种是轮询(polling), 是内核定期主动去查询外围设备的状态， 然后进行处理。</li>
+<li>另外一种是中断机制， 让外围设备主动发出中断信号给内核， 内核根据中断信号进行响应的处理。</li>
+</ul>
+<h3 id="中断">中断</h3>
+<p>中断是本质是硬件设备发出的一种电信号。 中断不必考虑时钟同步， 可以在任何时候产生。</p>
+<p>不同设备有不同的中断信号， 操作系统会根据不同的信号调用不同的中断处理程序。</p>
+<p>异常是操作系统执行由于编程错误而执行错误的指令时产生， 例如除0，或者缺页， 这时必须要操作系统进行处理时， 就会产生一个异常。  产生异常时必须考虑时钟同步， 因此异常也叫做<strong>同步中断</strong>。</p>
+<h3 id="中断处理程序">中断处理程序</h3>
+<p>产生中断的设备都有一个响应的中断处理程序， 它是设备驱动程序程序(drive)一部分。 而<strong>设备驱动程序用于对设备进行管理的内核代码。</strong></p>
+<p>中断处理程序和普通内核函数区别不但。  中断程序和其它普通函数的区别在于中断处理程序是由内核调用响应中断的，它们运行在我们称为中断上下文这种特殊的上下文中，并且该上下文中的代码是不可以被阻塞的。 因此中断上下文也称为原子上下文。</p>
+<p>中断随时都能够发生， 因此要求中断处理程序能够快速的完成。</p>
+<h3 id="上半部和下半部对比">上半部和下半部对比</h3>
+<p>设计中断程序有两个方面：</p>
+<ul>
+<li>一个是中断处理要运行的快，</li>
+<li>二是中断处理程序处理的任务要多。</li>
+</ul>
+<p>这是一种此消彼长的矛盾关系。 因此把中断程序分为上下两部分：</p>
+<ul>
+<li>上半部分在接到一个中断， 它仅开始执行有严格时限的工作。 例如中断应答或者硬件复位 。</li>
+<li>那种能够允许稍后完成的工作会被推后到下半部。</li>
+</ul>
+<h3 id="注册中断处理程序">注册中断处理程序</h3>
+<p>中断程序是管理硬件的驱动程序的一部分。 每个设备都有相关的驱动程序。 当设备需要利用中断， 那么都应该注册一个中断处理程序。  驱动程序可以使用下面的函数注册一个中断处理程序：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="n">request_irq</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">irq</span><span class="p">,</span> <span class="n">irq_handler_t</span> <span class="n">handler</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">flags</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>irq 表示要分配的中断号</li>
+<li>handler 是一个指针，指向处理这个中断实际处理程序。</li>
+</ul>
+<p>这是处理程序的函数签名：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">typedef irqreturn_t (*irq_handler_t)(int, void *);
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>flag 是一个掩码， 可以下面这些值的组合。</p>
+<ul>
+<li>IRQF_DISALED——该标志被设置后，意味在内核处理中断处理程序间，要禁止其他所有的中断。</li>
+<li>IRQF_SAMPLE_RANDOM —— 该标志表示该设备产生的中断对内核的墒池（entropy pool)有贡献。  内核的墒池负责从各种随机中导出真正的随机数。 如果设置了该标志那么个来自该设备的中断间隔时间会作为墒填充到墒池中。</li>
+<li>IRAQF_TIMER —— 这是为系统定时器特意设置的</li>
+<li>IRQF_SHARED —— 该标志表明可以在多个中断处理程序中共享中断线。  在同一个给定线的中断处理程序必须设置这个标志， 否则每条线只能有一个处理程序。</li>
+</ul>
+</li>
+<li>
+<p>name 表示相关设置额的acii 码表示</p>
+</li>
+<li>
+<p>dev 用于共享中断线， 当多个处理程序共享一条中断线时， dev 将提供唯一的标志信息（cookie）， 以便从诸多中断处理程序总移除指定的一个中断处理程序。  如果不共享中断线那么这个值可以为 NULL， 并在内核每次调用中断处理程序时， 都会把dev 传递个中断处理程序。</p>
+</li>
+</ul>
+<p>卸载中断处理程序，会调用下面的函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="o">*</span><span class="nf">free_irq</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">irq</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span> <span class="n">dev</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上面的函数会注销相应的中断处理程序， 并释放中断线。  如果中断线是不共享的，那么dev 可以为 NULL， 否则必须传递 dev ，以删除指定的设备。</p>
+<h3 id="中断上下文">中断上下文</h3>
+<p><strong>进程上下文是内核所处的一种特殊模式， 此时代表内核代表进程执行某些操作——例如执行系统调用或运行内核线程。 在进程上下文中， 可以通过 current 宏关联当前进程。 这样进程就通过进程上下文连接到内核中， 因此处于进程上下文可以休眠也可以调用内核调度程序。</strong></p>
+<p>当内核执行一个中断处理程序时， 处于中断上下文中。  中断上下文不与任何进程相关联， 其 current 宏指向被中断的进程， 所以中断上下文不可以被中断， 否则你怎么重新调度它呢。</p>
+<h2 id="下半部和推后执行的工作">下半部和推后执行的工作</h2>
+<p>中断信号随时都能够产生， 因此其可能打断一些比较重要的代码。 并且中断处理程序不与任何进程相关联， 无法被进程调度程序进行重新调度， 因此中断处理程序执行不能够被阻塞的。 因此把一些有时间要求能够快速执行的任务放在中断处理程序放在上半部分（top half）， 较为繁重的没有时限要求的任务放在后半部执行（bottom half）</p>
+<p>下半部究竟什么时候执行呢？</p>
+<p>下半部强调的并不是立马执行。 下半部不需要指定一个确切的时间， 只是要把这些任务推迟一会儿， 在系统不太繁忙，并且中断恢复后执行就可以了。</p>
+<p>通常下半部在中断处理程序返回后一会儿就立即执行。 下半部执行关键在于当它们运行的时候是允许中断的。</p>
+<p><strong>下半部的起源</strong></p>
+<p>最初 linux 采用 “bottom half” 这种机制来实现下半部， 用于将工作进行推后， 这种机制也称为“BH”。 它提供了一个静态创建，由32个 bottom halves 组成的链表。上半部通过1个32位的整数来标识出那个 bottom half 可以执行，每个 BH 都会在全局范围内进行同步，即使分属不同的处理器，也不允许两个 bottom half 同时执行。</p>
+<p><strong>任务队列</strong></p>
+<p>任务队列也是用来实现工作推后执行， 用来代替 BH。</p>
+<p><strong>软中断和tasklet</strong></p>
+<h2 id="第9章-内核同步介绍">第9章 内核同步介绍</h2>
+<h3 id="临界区和竞争条件">临界区和竞争条件</h3>
+<p>临界区就是访问和操作共享资源的代码片段。</p>
+<p>如果存在多个线程访问同一个临界资源， 这说明程序出现了 bug， 这就是竞争条件（race condition）</p>
+<h3 id="加锁">加锁</h3>
+<p>给临界资源加上锁上避免出现竞争条件的的一种方法。</p>
+<p>锁的作用就是让线程对临界资源的串行访问。</p>
+<p>锁有各种形式， 各种锁机制之间的区别在于：当锁被其他线程持有，因而不可用时的行为表现。</p>
+<ul>
+<li>一些锁在被争用时会简单的执行忙等待。</li>
+<li>一些锁会让任务睡眠知道锁可用为止。</li>
+</ul>
+<p>注意锁是原子操作， 不会出现竞争条件的情况。</p>
+<h3 id="死锁">死锁</h3>
+<p>死锁产生需要一定的条件： 要有一个或多个执行线程和一个或多个资源， 每个线程都在等待其中的一个资源，但所有的资源都被占用了。所有的线程都在相互等待， 并且永远不会释放已经咱有的资源。 于是所有的线程都无法继续， 这样死锁就发生了。</p>
+<p>自死锁： 一个已持有锁的线程试图去获得一个自己已经持有的锁情况。</p>
+<p>有下面的规则避免死锁：</p>
+<ul>
+<li>按顺序加锁</li>
+<li>防止发生饥饿（执行的代码一定会执行结束吗）</li>
+<li>不要重复请求同一个锁</li>
+<li>设计力求简单（加锁的机制应该简单）</li>
+</ul>
+<h3 id="争用和扩展性">争用和扩展性</h3>
+<p>锁的争用（loeck contention）简称争用，是只锁被占用的时候， 其他的线程试图获得该锁。</p>
+<p>锁处于高度争用状态， 就是指有多个线程正在等待锁。</p>
+<p>由于锁的作用是使程序以串行方式访问， 这会降低系统性能。</p>
+<h2 id="第-10-章内核同步的方法">第 10 章内核同步的方法</h2>
 <h2 id="第-11-章-定时器和时间管理">第 11 章 定时器和时间管理</h2>
 <p>时间对linux 内核是非常重要的， 因为内核很多函数都是基于时间驱动的， 当然也有基于事件驱动的。</p>
 <p>所有周期的性事件都是由系统定时器驱动的。 系统定时器是一种可编程硬件芯片， 它能够以固定频率产生中断。 该中断就是所谓的定时器中断， 它对应的中断处理器程序负责更新系统时间并负责执行需要周期性需要执行的任务。</p>
@@ -429,8 +779,17 @@
 <h3 id="jiffies">jiffies</h3>
 <p>jiffies 是一个全局变量， 用于记录自系统启动以来产生的节拍总数。</p>
 <blockquote>
-<p>jiffy</p>
+<p>jiffy 用于表示时间间隔， 通常是10ms。  在物理学中， 表示光传播一定的距离所花的时间间隔（大抵是1英尺，或者1厘米，或者跨越i个核子）所花的时间。
+在计算机中， jiff 通常是两次连续的时钟周期之间的时间。</p>
 </blockquote>
+<h3 id="硬时钟和定时器">硬时钟和定时器</h3>
+<p>计算机中提供了两种设备进行计时， 一种是系统定时器， 一种是实时时钟。</p>
+<p><strong>实时时钟</strong></p>
+<p>实时时钟（RTC）用来持久存放系统时间的设备， 即便电脑关闭后，它可以靠主板上的微型电池提供的电力保持系统的计时。</p>
+<p>在系统启动后， 内核会读取RTC的值来初始化墙上时间（实时时间），该时间存放在xtime 变量中。</p>
+<p><strong>系统定时器</strong></p>
+<p>各种系统定时器的主要作用是提供<strong>一种周期性触发中断的机制</strong>。</p>
+<p>在X86体系结构中，主要采用可编程中断时钟（PIT）为系统定时器。  PIT 在PC时代就普遍存在， 并且在 DOS 时代就作为中断源。  在内核启动的时候就会对 PIT 进行初始化，时期能够按照HZ/秒的频率产生时钟中断（中断O）。</p>
 
     </div>
 
